@@ -1,4 +1,4 @@
 Erudit
 ======
 
-Erudit games
+Erudit games.
