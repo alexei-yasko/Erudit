@@ -6,7 +6,11 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import com.google.common.base.Strings;
+
 /**
+ * Process clicks on cell of game field.
+ *
  * @author Q-YAA
  */
 public class LetterCellComponentActionListener implements ActionListener {
@@ -21,11 +25,11 @@ public class LetterCellComponentActionListener implements ActionListener {
         LetterCellComponent letterCellComponent = (LetterCellComponent) e.getSource();
 
         if (isAvailableButNotChoose(letterCellComponent)) {
-            String input = JOptionPane.showInputDialog(parent, "Choose latter");
-            String letter = input != null ? input : letterCellComponent.getLetter();
-
-            letterCellComponent.setLetter(letter);
-            letterCellComponent.setChoose(true);
+            String letter = JOptionPane.showInputDialog(parent, "Choose letter");
+            if (!Strings.isNullOrEmpty(letter)) {
+                letterCellComponent.setLetter(letter);
+                letterCellComponent.setChoose(true);
+            }
         }
         else if (isAvailableAndChoose(letterCellComponent)) {
             letterCellComponent.setLetter("");
@@ -38,7 +42,6 @@ public class LetterCellComponentActionListener implements ActionListener {
             letterCellComponent.setChoose(true);
         }
 
-        letterCellComponent.setAvailable(false);
         letterCellComponent.repaint();
     }
 
