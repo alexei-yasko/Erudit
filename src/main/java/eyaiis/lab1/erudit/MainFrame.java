@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import eyaiis.lab1.erudit.graphics.GameFieldComponent;
 import eyaiis.lab1.erudit.graphics.LetterCellComponent;
+import eyaiis.lab1.erudit.model.Game;
 
 /**
  * @author Q-YAA
@@ -23,9 +24,13 @@ public class MainFrame extends JFrame {
     private static final int DEFAULT_WIDTH = 900;
     private static final int DEFAULT_HEIGHT = 700;
 
+    private Game game;
+
     private GameFieldComponent gameFieldComponent;
 
-    public MainFrame() {
+    public MainFrame(Game game) {
+        this.game = game;
+
         setTitle(TITLE);
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
