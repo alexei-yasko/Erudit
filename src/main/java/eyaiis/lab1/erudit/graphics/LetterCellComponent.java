@@ -35,7 +35,7 @@ public class LetterCellComponent extends JButton {
     }
 
     public void setLetter(String letter) {
-        this.letter = letter;
+        this.letter = letter.substring(0, 1);
     }
 
     public boolean isAvailable() {
