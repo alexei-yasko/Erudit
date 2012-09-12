@@ -2,35 +2,60 @@ package eyaiis.lab1.erudit.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Q-YAA
  */
 public class User {
 
-    private String name = "";
+    private String name;
 
     private int points;
 
-    private List<String> latterList = new ArrayList<String>();
+    private List<Letter> latterList = new ArrayList<Letter>();
 
-    public User() {
+    //For test purpose
+    {
+        latterList.add(new Letter("F", 1));
+    }
+
+    public User(String name) {
+        this.name = name;
+    }
+
+    public void executeStep(Map<Integer, Letter> letterOnTheField) {
     }
 
     public void increasePoints(int additionalPoints) {
         points += additionalPoints;
     }
 
-    public void addLater(String later) {
+    public boolean isHaveLetter(String letterName) {
+        return getLatterByName(letterName) != null;
+    }
+
+    public Letter getLatterByName(String name) {
+        for (Letter letter : latterList) {
+
+            if (letter.getName().equals(name)) {
+                return letter;
+            }
+        }
+
+        return null;
+    }
+
+    public void addLater(Letter later) {
         latterList.add(later);
     }
 
-    public void addLater(List<String> latterList) {
+    public void addLater(List<? extends Letter> latterList) {
         this.latterList.addAll(latterList);
     }
 
-    public void removeLatter(String latter) {
-        latterList.remove(latter);
+    public void removeLatter(Letter letter) {
+        latterList.remove(letter);
     }
 
     public void removeLatter(List<String> latterList) {
@@ -53,11 +78,11 @@ public class User {
         this.points = points;
     }
 
-    public List<String> getLatterList() {
+    public List<Letter> getLatterList() {
         return latterList;
     }
 
-    public void setLatterList(List<String> latterList) {
+    public void setLatterList(List<Letter> latterList) {
         this.latterList = latterList;
     }
 }

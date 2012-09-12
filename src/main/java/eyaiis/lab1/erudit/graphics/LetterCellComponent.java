@@ -10,6 +10,8 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JButton;
 
+import eyaiis.lab1.erudit.model.Letter;
+
 /**
  * Component for display and set letter on games field.
  *
@@ -18,7 +20,7 @@ import javax.swing.JButton;
 public class LetterCellComponent extends JButton {
     private int cellNumber;
 
-    private String letter = "";
+    private Letter letter;
 
     private boolean isAvailable = true;
     private boolean isChoose = false;
@@ -30,12 +32,12 @@ public class LetterCellComponent extends JButton {
         setPreferredSize(new Dimension(width, height));
     }
 
-    public String getLetter() {
+    public Letter getLetter() {
         return letter;
     }
 
-    public void setLetter(String letter) {
-        this.letter = letter.substring(0, 1);
+    public void setLetter(Letter letter) {
+        this.letter = letter;
     }
 
     public boolean isAvailable() {
@@ -75,18 +77,20 @@ public class LetterCellComponent extends JButton {
         Font font = new Font("Courier", Font.BOLD, 40);
         graphics2D.setFont(font);
 
-        graphics2D.drawString(letter, getLetterPositionX(font, graphics2D), getLetterPositionY(font, graphics2D));
+        if (letter != null) {
+            graphics2D.drawString(letter.getName(), getLetterPositionX(font, graphics2D), getLetterPositionY(font, graphics2D));
+        }
     }
 
     private int getLetterPositionX(Font font, Graphics2D graphics2D) {
         FontMetrics fontMetrics = getFontMetrics(font);
-        Rectangle2D letterSize = fontMetrics.getStringBounds(letter, graphics2D);
+        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName(), graphics2D);
         return (int) (getWidth() - letterSize.getWidth()) / 2;
     }
 
     private int getLetterPositionY(Font font, Graphics2D graphics2D) {
         FontMetrics fontMetrics = getFontMetrics(font);
-        Rectangle2D letterSize = fontMetrics.getStringBounds(letter, graphics2D);
+        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName(), graphics2D);
         return (int) (getHeight() - letterSize.getHeight()) / 2 + + fontMetrics.getAscent();
     }
 }

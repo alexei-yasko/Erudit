@@ -1,50 +1,47 @@
 package eyaiis.lab1.erudit.model;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * @author yaskoam
  */
 public class Game {
 
-    private static final String LATTER_POINTS_FILE = "letterPoints.properties";
-    private static final String LATTER_QUANTITY_FILE = "letterQuantity.properties";
+    public static final int CELL_QUANTITY_WIDTH = 15;
+    public static final int CELL_QUANTITY_HEIGHT = 15;
 
-    private Map<String, Integer> latterPointsMap = new HashMap<String, Integer>();
-    private Map<String, Integer> latterQuantityMap = new HashMap<String, Integer>();
+    //all free letter
+    private LetterBox letterBox;
 
-    public Game() {
-        latterPointsMap = loadLetterProperties(LATTER_POINTS_FILE);
-        latterQuantityMap = loadLetterProperties(LATTER_QUANTITY_FILE);
+    //key - position on the field (cell number form 0 to height * width), value - letter on this position
+    private Map<Integer, Letter> lettersOnTheField = new HashMap<Integer, Letter>();
+
+    private List<User> userList = new ArrayList<User>();
+
+    private User currentUser;
+
+    public Game(List<User> userList) {
+        this.userList = userList;
+
+        letterBox = new LetterBox(GameUtils.loadLetterList());
+        currentUser = userList.get(0);
     }
 
     public void startGame() {
-        //For load test
-        System.out.println(latterPointsMap.size());
-        System.out.println(latterQuantityMap.size());
     }
 
-    private Map<String, Integer> loadLetterProperties(String fileName) {
-        Map<String, Integer> latterMap = new HashMap<String, Integer>();
+    public void addLetterOnTheField(Letter letter) {
 
-        try {
-            Properties properties = new Properties();
-            properties.load(Game.class.getClassLoader().getResourceAsStream(fileName));
+    }
 
-            for (Map.Entry entry : properties.entrySet()) {
-                String latter = (String) entry.getKey();
-                Integer value = Integer.parseInt((String) entry.getValue());
+    public void addUser(User user) {
+        userList.add(user);
+    }
 
-                latterMap.put(latter, value);
-            }
-
-        } catch (IOException e) {
-            throw new IllegalStateException("Latter property file not found!", e);
-        }
-
-        return latterMap;
+    public User getCurrentUser() {
+        return currentUser;
     }
 }

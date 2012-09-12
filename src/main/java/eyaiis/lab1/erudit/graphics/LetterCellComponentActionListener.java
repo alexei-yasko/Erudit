@@ -8,6 +8,8 @@ import javax.swing.JOptionPane;
 
 import com.google.common.base.Strings;
 
+import eyaiis.lab1.erudit.model.User;
+
 /**
  * Process clicks on cell of game field.
  *
@@ -17,7 +19,10 @@ public class LetterCellComponentActionListener implements ActionListener {
 
     private Component parent;
 
-    public LetterCellComponentActionListener(Component parent) {
+    private User currentUser;
+
+    public LetterCellComponentActionListener(User currentUser, Component parent) {
+        this.currentUser = currentUser;
         this.parent = parent;
     }
 
@@ -25,14 +30,16 @@ public class LetterCellComponentActionListener implements ActionListener {
         LetterCellComponent letterCellComponent = (LetterCellComponent) e.getSource();
 
         if (isAvailableButNotChoose(letterCellComponent)) {
-            String letter = JOptionPane.showInputDialog(parent, "Choose letter");
-            if (!Strings.isNullOrEmpty(letter)) {
-                letterCellComponent.setLetter(letter);
+
+            String letterName = JOptionPane.showInputDialog(parent, "Choose letterName");
+
+            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHaveLetter(letterName)) {
+                letterCellComponent.setLetter(currentUser.getLatterByName(letterName));
                 letterCellComponent.setChoose(true);
             }
         }
         else if (isAvailableAndChoose(letterCellComponent)) {
-            letterCellComponent.setLetter("");
+            letterCellComponent.setLetter(null);
             letterCellComponent.setChoose(false);
         }
         else if (isUnavailableAndChoose(letterCellComponent)) {

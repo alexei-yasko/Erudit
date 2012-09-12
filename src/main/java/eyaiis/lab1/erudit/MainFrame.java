@@ -38,7 +38,7 @@ public class MainFrame extends JFrame {
         //Развернуть на весь экран
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
-        gameFieldComponent = new GameFieldComponent();
+        gameFieldComponent = new GameFieldComponent(game);
         add(gameFieldComponent, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
