@@ -11,6 +11,7 @@ import eyaiis.lab1.erudit.model.User;
 public class Application {
 
     public static void main(String[] args) {
+
         Game game = new Game(Arrays.asList(
             new User("user1"),
             new User("Computer"))
@@ -18,7 +19,5 @@ public class Application {
 
         MainFrame mainFrame = new MainFrame(game);
         mainFrame.setVisible(true);
-
-        game.startGame();
     }
 }

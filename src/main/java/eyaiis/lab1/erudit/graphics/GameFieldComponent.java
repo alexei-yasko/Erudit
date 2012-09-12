@@ -1,14 +1,20 @@
 package eyaiis.lab1.erudit.graphics;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import com.google.common.base.Strings;
 
 import eyaiis.lab1.erudit.model.Game;
 import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.User;
 
 /**
  * Component that represent game field. Contains list of elementary cell.
@@ -38,7 +44,7 @@ public class GameFieldComponent extends JPanel {
             LetterCellComponent letterComponent = new LetterCellComponent(sellWidth, sellHeight, i);
             letterCellComponentList.add(letterComponent);
 
-            letterComponent.addActionListener(new LetterCellComponentActionListener(game.getCurrentUser(), this));
+            letterComponent.addActionListener(new LetterCellComponentActionListener());
             add(letterComponent);
         }
     }
@@ -60,8 +66,6 @@ public class GameFieldComponent extends JPanel {
 
     /**
      * Return cells that were chosen during step.
-     *
-     * @retur List<LetterCellComponent> list of cells
      */
     public List<LetterCellComponent> getChosenLetterCell() {
         List<LetterCellComponent> chosenLetterCell = new ArrayList<LetterCellComponent>();
@@ -77,5 +81,75 @@ public class GameFieldComponent extends JPanel {
 
     private int getCellSideSize(int fieldSideSize, int cellQuantity) {
         return fieldSideSize / cellQuantity;
+    }
+
+    /**
+     * Process clicks on cell of game field.
+     *
+     * @author Q-YAA
+     */
+    private class LetterCellComponentActionListener implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+            LetterCellComponent letterCellComponent = (LetterCellComponent) e.getSource();
+
+            if (isAvailableButNotChoose(letterCellComponent)) {
+                handleAvailableButNotChoose(letterCellComponent);
+            }
+            else if (isAvailableAndChoose(letterCellComponent)) {
+                handleAvailableAndChoose(letterCellComponent);
+            }
+            else if (isUnavailableAndChoose(letterCellComponent)) {
+                handleUnavailableAndChoose(letterCellComponent);
+            }
+            else if (isUnavailableAndNotChoose(letterCellComponent)) {
+                handleUnavailableAndNotChoose(letterCellComponent);
+            }
+
+            letterCellComponent.repaint();
+        }
+
+        private void handleAvailableButNotChoose(LetterCellComponent letterCellComponent) {
+            User currentUser = game.getCurrentUser();
+            String letterName = JOptionPane.showInputDialog(GameFieldComponent.this, "Choose letterName");
+
+            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHaveLetter(letterName)) {
+                letterCellComponent.setLetter(currentUser.getLatterByName(letterName));
+                currentUser.removeLatter(letterCellComponent.getLetter());
+
+                letterCellComponent.setChoose(true);
+            }
+        }
+
+        private void handleAvailableAndChoose(LetterCellComponent letterCellComponent) {
+            game.getCurrentUser().addLater(letterCellComponent.getLetter());
+
+            letterCellComponent.setLetter(null);
+            letterCellComponent.setChoose(false);
+        }
+
+        private void handleUnavailableAndChoose(LetterCellComponent letterCellComponent) {
+            letterCellComponent.setChoose(false);
+        }
+
+        private void handleUnavailableAndNotChoose(LetterCellComponent letterCellComponent) {
+            letterCellComponent.setChoose(true);
+        }
+
+        private boolean isAvailableButNotChoose(LetterCellComponent letterCellComponent) {
+            return letterCellComponent.isAvailable() && !letterCellComponent.isChoose();
+        }
+
+        private boolean isAvailableAndChoose(LetterCellComponent letterCellComponent) {
+            return letterCellComponent.isAvailable() && letterCellComponent.isChoose();
+        }
+
+        private boolean isUnavailableAndNotChoose(LetterCellComponent letterCellComponent) {
+            return !letterCellComponent.isAvailable() && !letterCellComponent.isChoose();
+        }
+
+        private boolean isUnavailableAndChoose(LetterCellComponent letterCellComponent) {
+            return !letterCellComponent.isAvailable() && letterCellComponent.isChoose();
+        }
     }
 }

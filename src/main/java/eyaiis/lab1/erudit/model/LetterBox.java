@@ -2,6 +2,7 @@ package eyaiis.lab1.erudit.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author Q-YAA
@@ -20,7 +21,15 @@ public class LetterBox {
      * @return Letter letter object
      */
     public Letter getRandomLetter() {
-        return null;
+        Random random = new Random();
+        int index = random.nextInt(letterList.size());
+
+        Letter letter = letterList.get(index);
+        letterList.remove(index);
+
+        System.out.println(letter);
+        
+        return letter;
     }
 
     /**
@@ -29,6 +38,12 @@ public class LetterBox {
      * @return List<Letter> list of letter objects
      */
     public List<Letter> getRandomLetterList(int quantity) {
-        return null;
+        List<Letter> selectedLetters = new ArrayList<Letter>();
+
+        for (int i = 0; i < quantity; i++) {
+            selectedLetters.add(getRandomLetter());
+        }
+
+        return selectedLetters;
     }
 }

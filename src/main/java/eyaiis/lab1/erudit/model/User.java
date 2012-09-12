@@ -38,7 +38,7 @@ public class User {
     public Letter getLatterByName(String name) {
         for (Letter letter : latterList) {
 
-            if (letter.getName().equals(name)) {
+            if (letter.getName().equals(name.toLowerCase())) {
                 return letter;
             }
         }

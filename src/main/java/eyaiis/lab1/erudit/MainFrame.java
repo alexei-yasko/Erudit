@@ -38,6 +38,8 @@ public class MainFrame extends JFrame {
         //Развернуть на весь экран
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        game.startGame();
+
         gameFieldComponent = new GameFieldComponent(game);
         add(gameFieldComponent, BorderLayout.CENTER);
 
@@ -63,6 +65,8 @@ public class MainFrame extends JFrame {
                 letterCell.setAvailable(false);
                 letterCell.setChoose(false);
             }
+
+            game.nextStep();
 
             gameFieldComponent.repaint();
         }

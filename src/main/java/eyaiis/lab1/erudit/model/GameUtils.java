@@ -46,7 +46,7 @@ public class GameUtils {
                 String latter = (String) entry.getKey();
                 Integer value = Integer.parseInt((String) entry.getValue());
 
-                latterMap.put(latter, value);
+                latterMap.put(latter.toLowerCase(), value);
             }
 
         }

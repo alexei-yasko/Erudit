@@ -12,7 +12,7 @@ public class Letter {
     private int letterPoints;
 
     public Letter(String name, int letterPoints) {
-        this.name = name;
+        this.name = name.toLowerCase();
         this.letterPoints = letterPoints;
     }
 
@@ -20,15 +20,43 @@ public class Letter {
         return letterPoints;
     }
 
-    public void setLetterPoints(int letterPoints) {
-        this.letterPoints = letterPoints;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name.substring(0, 1);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Letter)) {
+            return false;
+        }
+
+        Letter letter = (Letter) o;
+
+        if (letterPoints != letter.letterPoints) {
+            return false;
+        }
+        if (name != null ? !name.equals(letter.name) : letter.name != null) {
+            return false;
+        }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + letterPoints;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Letter{" +
+            "letterPoints=" + letterPoints +
+            ", name='" + name + '\'' +
+            '}';
     }
 }
