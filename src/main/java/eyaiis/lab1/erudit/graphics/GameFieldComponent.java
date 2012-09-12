@@ -47,6 +47,8 @@ public class GameFieldComponent extends JPanel {
             letterComponent.addActionListener(new LetterCellComponentActionListener());
             add(letterComponent);
         }
+
+        refreshGameField(game.getLettersOnTheField());
     }
 
     /**
@@ -60,6 +62,7 @@ public class GameFieldComponent extends JPanel {
 
             if (letter != null) {
                 letterCellComponent.setLetter(letter);
+                letterCellComponent.setAvailable(false);
             }
         }
     }

@@ -84,15 +84,19 @@ public class Game {
 
         //set letters before central letter
         for (int i = numberOfCentralElementOnField - numberOfCentralLetterInWord; i < numberOfCentralElementOnField; i++) {
-            lettersOnTheField.put(i, startWord.get(i - (numberOfCentralElementOnField - numberOfCentralLetterInWord)));
+            int letterIndexInWord = i - (numberOfCentralElementOnField - numberOfCentralLetterInWord);
+            lettersOnTheField.put(i, startWord.get(letterIndexInWord));
         }
 
         //set central letter
         lettersOnTheField.put(numberOfCentralElementOnField, startWord.get(numberOfCentralLetterInWord));
 
         //set letters after central letter
-//        for (int i = numberOfCentralElementOnField; i < numberOfCentralElementOnField + numberOfCentralLetterInWord; i++) {
-//            lettersOnTheField.put(i + 1, startWord.get(numberOfCentralLetterInWord + i - (numberOfCentralElementOnField - numberOfCentralLetterInWord));
-//        }
+        for (int i = numberOfCentralElementOnField; i < numberOfCentralElementOnField + numberOfCentralLetterInWord; i++) {
+            int letterIndexInWord =
+                numberOfCentralLetterInWord + (i - numberOfCentralElementOnField);
+
+            lettersOnTheField.put(i + 1, startWord.get(letterIndexInWord));
+        }
     }
 }
