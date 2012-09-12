@@ -10,6 +10,7 @@ import java.util.Map;
  */
 public class Game {
 
+    //necessarily odd, because game field must have central cell
     public static final int CELL_QUANTITY_WIDTH = 15;
     public static final int CELL_QUANTITY_HEIGHT = 15;
 
@@ -29,6 +30,9 @@ public class Game {
         this.userList = userList;
 
         letterBox = new LetterBox(GameUtils.loadLetterList());
+
+        List<Letter> startWord = GameUtils.getRandomWordFromLetterBox(letterBox);
+        setStartWordOnGameFieldCenter(startWord);
     }
 
     public void startGame() {
@@ -71,5 +75,24 @@ public class Game {
         }
 
         return userList.get(nextIndex);
+    }
+
+    private void setStartWordOnGameFieldCenter(List<Letter> startWord) {
+        int numberOfCentralElementOnField = (CELL_QUANTITY_HEIGHT * CELL_QUANTITY_WIDTH - 1) / 2 + 1;
+
+        int numberOfCentralLetterInWord = startWord.size() / 2;
+
+        //set letters before central letter
+        for (int i = numberOfCentralElementOnField - numberOfCentralLetterInWord; i < numberOfCentralElementOnField; i++) {
+            lettersOnTheField.put(i, startWord.get(i - (numberOfCentralElementOnField - numberOfCentralLetterInWord)));
+        }
+
+        //set central letter
+        lettersOnTheField.put(numberOfCentralElementOnField, startWord.get(numberOfCentralLetterInWord));
+
+        //set letters after central letter
+//        for (int i = numberOfCentralElementOnField; i < numberOfCentralElementOnField + numberOfCentralLetterInWord; i++) {
+//            lettersOnTheField.put(i + 1, startWord.get(numberOfCentralLetterInWord + i - (numberOfCentralElementOnField - numberOfCentralLetterInWord));
+//        }
     }
 }

@@ -15,6 +15,28 @@ public class GameUtils {
     private static final String LETTER_POINTS_FILE = "letterPoints.properties";
     private static final String LETTER_QUANTITY_FILE = "letterQuantity.properties";
 
+    /**
+     * Create random word from dictionary, and take letters for it from given letter box.
+     *
+     * @param letterBox letter box
+     * @return List<Letter> random word
+     */
+    public static List<Letter> getRandomWordFromLetterBox(LetterBox letterBox) {
+        List<Letter> resultWord = new ArrayList<Letter>();
+
+        //TODO: take this word from dictionary
+        String randomWord = "рандом";
+
+        for (char symbol : randomWord.toCharArray()) {
+            char[] chars = new char[]{symbol};
+
+            resultWord.add(letterBox.getLetterByName(new String(chars)));
+        }
+
+        return resultWord;
+    }
+
+
     public static List<Letter> loadLetterList() {
 
         List<Letter> letterList = new ArrayList<Letter>();

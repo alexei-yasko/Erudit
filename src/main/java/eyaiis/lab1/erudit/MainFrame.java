@@ -28,6 +28,8 @@ public class MainFrame extends JFrame {
 
     private GameFieldComponent gameFieldComponent;
 
+    private JButton endStepButton;
+
     public MainFrame(Game game) {
         this.game = game;
 
@@ -45,7 +47,7 @@ public class MainFrame extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
-        JButton endStepButton = new JButton("End step");
+        endStepButton = new JButton("End step");
         endStepButton.addActionListener(new EndStepButtonActionListener());
         buttonPanel.add(endStepButton);
 
@@ -59,6 +61,8 @@ public class MainFrame extends JFrame {
     private class EndStepButtonActionListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
+            endStepButton.setEnabled(false);
+
             List<LetterCellComponent> chosenLetterCell = gameFieldComponent.getChosenLetterCell();
 
             for (LetterCellComponent letterCell : chosenLetterCell) {
@@ -67,8 +71,9 @@ public class MainFrame extends JFrame {
             }
 
             game.nextStep();
-
             gameFieldComponent.repaint();
+
+            endStepButton.setEnabled(true);
         }
     }
 }

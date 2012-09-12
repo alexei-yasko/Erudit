@@ -16,6 +16,23 @@ public class LetterBox {
     }
 
     /**
+     * Return letter from box by name and remove them from it.
+     *
+     * @return Letter letter object
+     */
+    public Letter getLetterByName(String name) {
+        for (Letter letter : letterList) {
+
+            if (letter.getName().equals(name)) {
+                letterList.remove(letter);
+                return letter;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Return random letter from box and remove them from it.
      *
      * @return Letter letter object
@@ -28,7 +45,7 @@ public class LetterBox {
         letterList.remove(index);
 
         System.out.println(letter);
-        
+
         return letter;
     }
 
