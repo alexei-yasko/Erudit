@@ -10,8 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import eyaiis.lab1.erudit.graphics.GameFieldComponent;
-import eyaiis.lab1.erudit.graphics.LetterCellComponent;
+import eyaiis.lab1.erudit.view.GameFieldComponent;
+import eyaiis.lab1.erudit.view.LetterCellComponent;
 import eyaiis.lab1.erudit.model.Game;
 
 /**
@@ -37,10 +37,6 @@ public class MainFrame extends JFrame {
         setSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        //Развернуть на весь экран
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
-
-        game.startGame();
 
         gameFieldComponent = new GameFieldComponent(game);
         add(gameFieldComponent, BorderLayout.CENTER);
@@ -52,10 +48,9 @@ public class MainFrame extends JFrame {
         buttonPanel.add(endStepButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
-    }
 
-    public GameFieldComponent getGameFieldComponent() {
-        return gameFieldComponent;
+        game.startGame();
+        gameFieldComponent.refreshGameField();
     }
 
     private class EndStepButtonActionListener implements ActionListener {

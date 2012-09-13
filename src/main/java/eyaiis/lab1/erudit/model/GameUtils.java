@@ -36,8 +36,12 @@ public class GameUtils {
         return resultWord;
     }
 
-
-    public static List<Letter> loadLetterList() {
+    /**
+     * Load letters from resource file. Load letter name, points of letter and letter quantity.
+     *
+     * @return List<Letter> loaded letters
+     */
+    public static List<Letter> loadLetterListFromResource() {
 
         List<Letter> letterList = new ArrayList<Letter>();
 
@@ -49,7 +53,6 @@ public class GameUtils {
 
             int quantity = letterQuantityMap.get(letter.getName());
             for (int i = 0; i < quantity; i++) {
-                // maybe must be letterList.add(letter.clone());
                 letterList.add(letter);
             }
         }

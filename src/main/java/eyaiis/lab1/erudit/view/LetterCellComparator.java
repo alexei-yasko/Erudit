@@ -1,4 +1,4 @@
-package eyaiis.lab1.erudit.graphics;
+package eyaiis.lab1.erudit.view;
 
 import java.util.Comparator;
 

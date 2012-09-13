@@ -15,11 +15,6 @@ public class User {
 
     private List<Letter> latterList = new ArrayList<Letter>();
 
-    //For test purpose
-    {
-        latterList.add(new Letter("F", 1));
-    }
-
     public User(String name) {
         this.name = name;
     }

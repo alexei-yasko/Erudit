@@ -1,11 +1,10 @@
-package eyaiis.lab1.erudit.graphics;
+package eyaiis.lab1.erudit.view;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,8 +22,8 @@ import eyaiis.lab1.erudit.model.User;
  */
 public class GameFieldComponent extends JPanel {
 
-    private static final int FIELD_WIDTH = 750;
-    private static final int FIELD_HEIGHT = 750;
+    private static final int FIELD_COMPONENT_WIDTH = 750;
+    private static final int FIELD_COMPONENT_HEIGHT = 750;
 
     private Game game;
 
@@ -33,13 +32,17 @@ public class GameFieldComponent extends JPanel {
     public GameFieldComponent(Game game) {
         this.game = game;
 
-        setSize(FIELD_WIDTH, FIELD_HEIGHT);
-        setLayout(new GridLayout(Game.CELL_QUANTITY_WIDTH, Game.CELL_QUANTITY_HEIGHT));
+        setSize(FIELD_COMPONENT_WIDTH, FIELD_COMPONENT_HEIGHT);
 
-        for (int i = 0; i < Game.CELL_QUANTITY_HEIGHT * Game.CELL_QUANTITY_WIDTH; i++) {
+        int cellWidthQuantity = game.getGameFieldModel().getFieldWidth();
+        int cellHeightQuantity = game.getGameFieldModel().getFieldHeight();
 
-            int sellWidth = getCellSideSize(FIELD_WIDTH, Game.CELL_QUANTITY_WIDTH);
-            int sellHeight = getCellSideSize(FIELD_HEIGHT, Game.CELL_QUANTITY_HEIGHT);
+        setLayout(new GridLayout(cellWidthQuantity, cellHeightQuantity));
+
+        for (int i = 0; i < cellHeightQuantity * cellWidthQuantity; i++) {
+
+            int sellWidth = getCellSideSize(FIELD_COMPONENT_WIDTH, cellWidthQuantity);
+            int sellHeight = getCellSideSize(FIELD_COMPONENT_HEIGHT, cellHeightQuantity);
 
             LetterCellComponent letterComponent = new LetterCellComponent(sellWidth, sellHeight, i);
             letterCellComponentList.add(letterComponent);
@@ -47,24 +50,22 @@ public class GameFieldComponent extends JPanel {
             letterComponent.addActionListener(new LetterCellComponentActionListener());
             add(letterComponent);
         }
-
-        refreshGameField(game.getLettersOnTheField());
     }
 
     /**
-     * Refresh presentation of game field.
-     *
-     * @param lettersOnTheField Map<Integer, Letter> map of latter and it position (new state of game)
+     * Refresh presentation of game field using {@link eyaiis.lab1.erudit.model.GameFieldModel}.
      */
-    public void refreshGameField(Map<Integer, Letter> lettersOnTheField) {
+    public void refreshGameField() {
         for (LetterCellComponent letterCellComponent : letterCellComponentList) {
-            Letter letter = lettersOnTheField.get(letterCellComponent.getCellNumber());
+            Letter letter = game.getGameFieldModel().getLetter(letterCellComponent.getCellNumber());
 
             if (letter != null) {
                 letterCellComponent.setLetter(letter);
                 letterCellComponent.setAvailable(false);
             }
         }
+
+        repaint();
     }
 
     /**
