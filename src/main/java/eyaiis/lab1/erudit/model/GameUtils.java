@@ -15,6 +15,18 @@ public class GameUtils {
     private static final String LETTER_POINTS_FILE = "letterPoints.properties";
     private static final String LETTER_QUANTITY_FILE = "letterQuantity.properties";
 
+
+    /**
+     * Method that check if given word exist in dictionary.
+     *
+     * @param word List<Letter> given word
+     * @return true - word exist in dictionary, false - word doesn't exist in dictionary
+     */
+    public static boolean isWordValid(List<Letter> word) {
+        //TODO: check word in the dictionary
+        return true;
+    }
+
     /**
      * Create random word from dictionary, and take letters for it from given letter box.
      *

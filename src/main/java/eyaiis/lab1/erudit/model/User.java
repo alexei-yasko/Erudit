@@ -2,7 +2,6 @@ package eyaiis.lab1.erudit.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Q-YAA
@@ -19,7 +18,16 @@ public class User {
         this.name = name;
     }
 
-    public void executeStep(Map<Integer, Letter> letterOnTheField) {
+    /**
+     * Method for additional game step processing.
+     *
+     * <p>Purpose of this method it's automatic step processing, for example by game bot.
+     * You can extend User class, and override this method.
+     * </p>
+     *
+     * @param gameFieldModel GameFieldModel game field
+     */
+    public void executeStep(GameFieldModel gameFieldModel) {
     }
 
     public void increasePoints(int additionalPoints) {

@@ -4,15 +4,23 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import eyaiis.lab1.erudit.view.GameFieldComponent;
-import eyaiis.lab1.erudit.view.LetterCellComponent;
 import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.GameUtils;
+import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.view.GameFieldComponent;
+import eyaiis.lab1.erudit.view.LetterCellComparator;
+import eyaiis.lab1.erudit.view.LetterCellComponent;
 
 /**
  * @author Q-YAA
@@ -60,15 +68,75 @@ public class MainFrame extends JFrame {
 
             List<LetterCellComponent> chosenLetterCell = gameFieldComponent.getChosenLetterCell();
 
-            for (LetterCellComponent letterCell : chosenLetterCell) {
-                letterCell.setAvailable(false);
-                letterCell.setChoose(false);
+            if (isStepValid(chosenLetterCell)) {
+                processStep(game, chosenLetterCell);
+                gameFieldComponent.refreshGameField();
+            }
+            else {
+                JOptionPane.showMessageDialog(MainFrame.this, "Correct your word!");
             }
 
-            game.nextStep();
             gameFieldComponent.repaint();
 
             endStepButton.setEnabled(true);
         }
+    }
+
+    private boolean isStepValid(List<LetterCellComponent> chosenLetterCell) {
+        return chosenLetterCell.isEmpty() ||
+            (isChosenCellRight(chosenLetterCell) && isChosenWordValid(composeWord(chosenLetterCell)));
+    }
+
+    private void processStep(Game game, List<LetterCellComponent> chosenLetterCell) {
+
+        Map<Integer, Letter> newWordLetters = new HashMap<Integer, Letter>();
+
+        for (LetterCellComponent letterCell : chosenLetterCell) {
+            letterCell.setAvailable(false);
+            letterCell.setChoose(false);
+
+            newWordLetters.put(letterCell.getCellNumber(), letterCell.getLetter());
+        }
+
+        game.nextStep(newWordLetters);
+    }
+
+    private List<Letter> composeWord(List<LetterCellComponent> chosenLetterCell) {
+        sortLetterCell(chosenLetterCell);
+
+        List<Letter> word = new ArrayList<Letter>();
+        for (LetterCellComponent letterCellComponent : chosenLetterCell) {
+            word.add(letterCellComponent.getLetter());
+
+            System.out.print(letterCellComponent.getLetter().getName());
+        }
+
+        System.out.println("");
+
+        return word;
+    }
+
+    private boolean isChosenWordValid(List<Letter> word) {
+        return GameUtils.isWordValid(word);
+    }
+
+    private boolean isChosenCellRight(List<LetterCellComponent> letterCellComponentList) {
+        boolean isCellListIncludeUnavailableCell = false;
+        boolean isCellListIncludeAvailableCell = false;
+
+        for (LetterCellComponent letterCellComponent : letterCellComponentList) {
+            if (!letterCellComponent.isAvailable()) {
+                isCellListIncludeUnavailableCell = true;
+            }
+            if (letterCellComponent.isAvailable()) {
+                isCellListIncludeAvailableCell = true;
+            }
+        }
+
+        return isCellListIncludeAvailableCell && isCellListIncludeUnavailableCell;
+    }
+
+    private void sortLetterCell(List<LetterCellComponent> letterCellComponentList) {
+        Collections.sort(letterCellComponentList, new LetterCellComparator());
     }
 }

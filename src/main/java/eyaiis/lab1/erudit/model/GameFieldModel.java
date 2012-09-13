@@ -23,12 +23,12 @@ public class GameFieldModel {
     }
 
     /**
-     * Add letter to the given position.
+     * Set letter to the given position. Replace old latter.
      *
      * @param letter letter
      * @param letterPosition letter position
      */
-    public void addLetter(Letter letter, int letterPosition) {
+    public void setLetter(Letter letter, int letterPosition) {
         lettersOnTheField.put(letterPosition, letter);
     }
 
