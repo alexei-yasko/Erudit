@@ -84,6 +84,14 @@ public class Game {
         return gameFieldModel;
     }
 
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public static int getCardOnHandsQuantity() {
+        return CARD_ON_HANDS_QUANTITY;
+    }
+
     private User determineNextUser(User currentUser) {
         int currentIndex = userList.indexOf(currentUser);
         int nextIndex = 0;

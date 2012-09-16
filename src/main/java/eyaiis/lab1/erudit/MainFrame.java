@@ -2,6 +2,7 @@ package eyaiis.lab1.erudit;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -10,17 +11,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import eyaiis.lab1.erudit.model.Game;
 import eyaiis.lab1.erudit.model.GameUtils;
 import eyaiis.lab1.erudit.model.Letter;
-import eyaiis.lab1.erudit.view.GameFieldComponent;
-import eyaiis.lab1.erudit.view.LetterCellComparator;
-import eyaiis.lab1.erudit.view.LetterCellComponent;
+import eyaiis.lab1.erudit.view.*;
 
 /**
  * @author Q-YAA
@@ -54,11 +50,18 @@ public class MainFrame extends JFrame {
         endStepButton = new JButton("End step");
         endStepButton.addActionListener(new EndStepButtonActionListener());
         buttonPanel.add(endStepButton);
-
         add(buttonPanel, BorderLayout.SOUTH);
 
+        add(new ScoreComponent(game), BorderLayout.EAST);
+        add(new UserLettersComponent(game), BorderLayout.NORTH);
+
         game.startGame();
+        refresh();
+    }
+
+    private void refresh() {
         gameFieldComponent.refreshGameField();
+        repaint();
     }
 
     private class EndStepButtonActionListener implements ActionListener {
@@ -76,7 +79,7 @@ public class MainFrame extends JFrame {
                 JOptionPane.showMessageDialog(MainFrame.this, "Correct your word!");
             }
 
-            gameFieldComponent.repaint();
+            MainFrame.this.refresh();
 
             endStepButton.setEnabled(true);
         }
