@@ -72,7 +72,6 @@ public class MainFrame extends JFrame {
 
             if (isStepValid(chosenLetterCell)) {
                 processStep(game, chosenLetterCell);
-                gameFieldComponent.refreshGameField();
             } else {
                 JOptionPane.showMessageDialog(MainFrame.this, "Correct your word!");
             }
