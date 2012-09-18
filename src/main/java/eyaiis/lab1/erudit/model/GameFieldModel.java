@@ -1,7 +1,7 @@
 package eyaiis.lab1.erudit.model;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class that present game field.
@@ -10,112 +10,117 @@ import java.util.Map;
  */
 public class GameFieldModel {
 
-    //key - position on the field (cell number form 0 to height * width), value - letter on this position
-    private Map<Integer, Letter> lettersOnTheField = new HashMap<Integer, Letter>();
+    private List<List<Letter>> field = new ArrayList<List<Letter>>();
 
     private int fieldWidth;
     private int fieldHeight;
 
-
     public GameFieldModel(int fieldWidth, int fieldHeight) {
-        this.fieldWidth = fieldWidth;
         this.fieldHeight = fieldHeight;
+        this.fieldWidth = fieldWidth;
+
+        initializeField(field, fieldHeight, fieldWidth);
     }
 
     /**
      * Set letter to the given position. Replace old latter.
      *
-     * @param letter letter
-     * @param letterPosition letter position
+     * @param letter   letter]
+     * @param position Position letter position on the field
      */
-    public void setLetter(Letter letter, int letterPosition) {
-        lettersOnTheField.put(letterPosition, letter);
+    public void setLetter(Letter letter, Position position) {
+        field.get(position.getRow()).set(position.getColumn(), letter);
     }
 
     /**
      * Return the letter which placed in the given position.
      *
-     * @param letterPosition letter position
+     * @param position Position letter position on the field
      * @return Letter letter
      */
-    public Letter getLetter(int letterPosition) {
-        return lettersOnTheField.get(letterPosition);
+    public Letter getLetter(Position position) {
+        return field.get(position.getRow()).get(position.getColumn());
     }
 
     /**
-     * Return the index of the cell that is the top for the cell with the given index.
+     * Method that return row with the given index from the game field.
      *
-     * @param currentCellIndex index of current cell
-     * @return int index for the bottom cell. If the cell with the given index doesn't has the top cell, return -1.
+     * @param rowIndex row index
+     * @return List<Letter> row from the field
      */
-    public int getTopCellIndex(int currentCellIndex) {
-        int topCellIndex;
-
-        if (currentCellIndex < fieldWidth) {
-            topCellIndex = -1;
-        }
-        else {
-            topCellIndex = currentCellIndex - fieldWidth;
-        }
-
-        return topCellIndex;
+    public List<Letter> getFieldRow(int rowIndex) {
+        return field.get(rowIndex);
     }
 
     /**
-     * Return the index of the cell that is the bottom for the cell with the given index.
+     * Method that return column with the given index from the game field.
      *
-     * @param currentCellIndex index of current cell
-     * @return int index for the bottom cell. If the cell with the given index doesn't has the bottom cell, return -1.
+     * @param columnIndex column index
+     * @return List<Letter> column from the field
      */
-    public int getBottomCellIndex(int currentCellIndex) {
-        int bottomCellIndex;
-
-        if (currentCellIndex >= fieldHeight * fieldWidth - fieldWidth) {
-            bottomCellIndex = -1;
-        }
-        else {
-            bottomCellIndex = currentCellIndex + fieldWidth;
+    public List<Letter> getFieldColumn(int columnIndex) {
+        List<Letter> column = new ArrayList<Letter>();
+        for (List<Letter> row : field) {
+            column.add(row.get(columnIndex));
         }
 
-        return bottomCellIndex;
+        return column;
     }
 
     /**
-     * Return the index of the cell that is the right for the cell with the given index.
+     * Return the position of the cell that is the top for the cell with the given position.
      *
-     * @param currentCellIndex index of current cell
-     * @return int index for the bottom cell. If the cell with the given index doesn't has the right cell, return -1.
+     * @param currentPosition positions of current cell
+     * @return Position position for the top cell.
+     *         If the cell with the given position doesn't has the top cell, return null.
      */
-    public int getRightCellIndex(int currentCellIndex) {
-        int rightCellIndex;
+    public Position getTopCellPosition(Position currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentColumn = currentPosition.getColumn();
 
-        if ((currentCellIndex + 1) % fieldWidth == 0) {
-            rightCellIndex = -1;
-        }
-        else {
-            rightCellIndex = currentCellIndex + 1;
-        }
-
-        return rightCellIndex;
+        return currentRow - 1 >= 0 ? new Position(currentRow - 1, currentColumn) : null;
     }
 
     /**
-     * Return the index of the cell that is the left for the cell with the given index.
+     * Return the position of the cell that is the bottom for the cell with the given position.
      *
-     * @param currentCellIndex index of current cell
-     * @return int index for the bottom cell. If the cell with the given index doesn't has the left cell, return -1.
+     * @param currentPosition position of current cell
+     * @return Position position for the bottom cell.
+     *         If the cell with the given position doesn't has the bottom cell, return null.
      */
-    public int getLeftCellIndex(int currentCellIndex) {
-        int leftCellIndex;
+    public Position getBottomCellPosition(Position currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentColumn = currentPosition.getColumn();
 
-        if (currentCellIndex % fieldWidth == 0) {
-            leftCellIndex = -1;
-        }
-        else {
-            leftCellIndex = currentCellIndex - 1;
-        }
+        return currentRow + 1 < fieldHeight ? new Position(currentRow + 1, currentColumn) : null;
+    }
 
-        return leftCellIndex;
+    /**
+     * Return the position of the cell that is the right for the cell with the given position.
+     *
+     * @param currentPosition position of current cell
+     * @return Position position for the bottom cell.
+     *         If the cell with the given position doesn't has the right cell, return null.
+     */
+    public Position getRightCellPosition(Position currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentColumn = currentPosition.getColumn();
+
+        return currentColumn + 1 < fieldWidth ? new Position(currentRow, currentColumn + 1) : null;
+    }
+
+    /**
+     * Return the position of the cell that is the left for the cell with the given position.
+     *
+     * @param currentPosition position of current cell
+     * @return Position position for the bottom cell.
+     *         If the cell with the given position doesn't has the left cell, return null.
+     */
+    public Position getLeftCellPosition(Position currentPosition) {
+        int currentRow = currentPosition.getRow();
+        int currentColumn = currentPosition.getColumn();
+
+        return currentColumn - 1 >= 0 ? new Position(currentRow, currentColumn - 1) : null;
     }
 
     public int getFieldHeight() {
@@ -124,5 +129,16 @@ public class GameFieldModel {
 
     public int getFieldWidth() {
         return fieldWidth;
+    }
+
+    private void initializeField(List<List<Letter>> field, int fieldHeight, int fieldWidth) {
+        for (int i = 0; i < fieldHeight; i++) {
+            List<Letter> fieldRow = new ArrayList<Letter>();
+            for (int j = 0; j < fieldWidth; j++) {
+                fieldRow.add(null);
+            }
+
+            field.add(fieldRow);
+        }
     }
 }

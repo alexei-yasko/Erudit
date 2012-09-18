@@ -1,19 +1,20 @@
 package eyaiis.lab1.erudit.view;
 
+import com.google.common.base.Strings;
+import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.Position;
+import eyaiis.lab1.erudit.model.User;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-
-import com.google.common.base.Strings;
-
-import eyaiis.lab1.erudit.model.Game;
-import eyaiis.lab1.erudit.model.Letter;
-import eyaiis.lab1.erudit.model.User;
 
 /**
  * Component that represent game field. Contains list of elementary cell.
@@ -25,30 +26,40 @@ public class GameFieldComponent extends JPanel {
     private static final int FIELD_COMPONENT_WIDTH = 750;
     private static final int FIELD_COMPONENT_HEIGHT = 750;
 
+    private static final int BORDER_SIZE = 2;
+
     private Game game;
 
-    private List<LetterCellComponent> letterCellComponentList = new ArrayList<LetterCellComponent>();
+    private List<List<LetterCellComponent>> field = new ArrayList<List<LetterCellComponent>>();
 
     public GameFieldComponent(Game game) {
         this.game = game;
 
         setSize(FIELD_COMPONENT_WIDTH, FIELD_COMPONENT_HEIGHT);
+        setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, BORDER_SIZE));
 
         int cellWidthQuantity = game.getGameFieldModel().getFieldWidth();
         int cellHeightQuantity = game.getGameFieldModel().getFieldHeight();
 
         setLayout(new GridLayout(cellWidthQuantity, cellHeightQuantity));
 
-        for (int i = 0; i < cellHeightQuantity * cellWidthQuantity; i++) {
+        //Build game field
+        for (int i = 0; i < cellHeightQuantity; i++) {
+            List<LetterCellComponent> row = new ArrayList<LetterCellComponent>();
 
-            int sellWidth = getCellSideSize(FIELD_COMPONENT_WIDTH, cellWidthQuantity);
-            int sellHeight = getCellSideSize(FIELD_COMPONENT_HEIGHT, cellHeightQuantity);
+            for (int j = 0; j < cellWidthQuantity; j++) {
+                int sellWidth = getCellSideSize(FIELD_COMPONENT_WIDTH, cellWidthQuantity);
+                int sellHeight = getCellSideSize(FIELD_COMPONENT_HEIGHT, cellHeightQuantity);
 
-            LetterCellComponent letterComponent = new LetterCellComponent(sellWidth, sellHeight, i);
-            letterCellComponentList.add(letterComponent);
+                LetterCellComponent letterComponent =
+                    new LetterCellComponent(sellWidth, sellHeight, new Position(i, j));
+                row.add(letterComponent);
 
-            letterComponent.addActionListener(new LetterCellComponentActionListener());
-            add(letterComponent);
+                letterComponent.addActionListener(new LetterCellComponentActionListener());
+                add(letterComponent);
+            }
+
+            field.add(row);
         }
     }
 
@@ -56,12 +67,16 @@ public class GameFieldComponent extends JPanel {
      * Refresh presentation of game field using {@link eyaiis.lab1.erudit.model.GameFieldModel}.
      */
     public void refreshGameField() {
-        for (LetterCellComponent letterCellComponent : letterCellComponentList) {
-            Letter letter = game.getGameFieldModel().getLetter(letterCellComponent.getCellNumber());
+        for (List<LetterCellComponent> row : field) {
 
-            if (letter != null) {
-                letterCellComponent.setLetter(letter);
-                letterCellComponent.setAvailable(false);
+            for (LetterCellComponent letterCell : row) {
+
+                Letter letter = game.getGameFieldModel().getLetter(letterCell.getPosition());
+
+                if (letter != null) {
+                    letterCell.setLetter(letter);
+                    letterCell.setAvailable(false);
+                }
             }
         }
 
@@ -74,9 +89,13 @@ public class GameFieldComponent extends JPanel {
     public List<LetterCellComponent> getChosenLetterCell() {
         List<LetterCellComponent> chosenLetterCell = new ArrayList<LetterCellComponent>();
 
-        for (LetterCellComponent letterCell : letterCellComponentList) {
-            if (letterCell.isChoose()) {
-                chosenLetterCell.add(letterCell);
+        for (List<LetterCellComponent> row : field) {
+
+            for (LetterCellComponent letterCell : row) {
+
+                if (letterCell.isChoose()) {
+                    chosenLetterCell.add(letterCell);
+                }
             }
         }
 
@@ -99,14 +118,11 @@ public class GameFieldComponent extends JPanel {
 
             if (isAvailableButNotChoose(letterCellComponent)) {
                 handleAvailableButNotChoose(letterCellComponent);
-            }
-            else if (isAvailableAndChoose(letterCellComponent)) {
+            } else if (isAvailableAndChoose(letterCellComponent)) {
                 handleAvailableAndChoose(letterCellComponent);
-            }
-            else if (isUnavailableAndChoose(letterCellComponent)) {
+            } else if (isUnavailableAndChoose(letterCellComponent)) {
                 handleUnavailableAndChoose(letterCellComponent);
-            }
-            else if (isUnavailableAndNotChoose(letterCellComponent)) {
+            } else if (isUnavailableAndNotChoose(letterCellComponent)) {
                 handleUnavailableAndNotChoose(letterCellComponent);
             }
 
@@ -117,8 +133,8 @@ public class GameFieldComponent extends JPanel {
             User currentUser = game.getCurrentUser();
             String letterName = JOptionPane.showInputDialog(GameFieldComponent.this, "Choose letterName");
 
-            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHaveLetter(letterName)) {
-                letterCellComponent.setLetter(currentUser.getLatterByName(letterName));
+            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHaveLetter(letterName.charAt(0))) {
+                letterCellComponent.setLetter(currentUser.getLatterByName(letterName.charAt(0)));
                 currentUser.removeLatter(letterCellComponent.getLetter());
 
                 letterCellComponent.setChoose(true);

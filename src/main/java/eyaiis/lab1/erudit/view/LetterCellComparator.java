@@ -8,6 +8,7 @@ import java.util.Comparator;
 public class LetterCellComparator implements Comparator<LetterCellComponent> {
 
     public int compare(LetterCellComponent o1, LetterCellComponent o2) {
-        return o1.getCellNumber() - o1.getCellNumber();
+        return (o1.getPosition().getRow() - o2.getPosition().getRow()) * 100 +
+            o1.getPosition().getColumn() - o2.getPosition().getColumn();
     }
 }

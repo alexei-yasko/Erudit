@@ -1,11 +1,7 @@
 package eyaiis.lab1.erudit.model;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * @author Q-YAA
@@ -39,10 +35,8 @@ public class GameUtils {
         //TODO: take this word from dictionary
         String randomWord = "рандом";
 
-        for (char symbol : randomWord.toCharArray()) {
-            char[] chars = new char[]{symbol};
-
-            resultWord.add(letterBox.getLetterByName(new String(chars)));
+        for (Character name : randomWord.toCharArray()) {
+            resultWord.add(letterBox.getLetterByName(name));
         }
 
         return resultWord;
@@ -57,10 +51,10 @@ public class GameUtils {
 
         List<Letter> letterList = new ArrayList<Letter>();
 
-        Map<String, Integer> letterPointMap = loadLetterProperties(LETTER_POINTS_FILE);
-        Map<String, Integer> letterQuantityMap = loadLetterProperties(LETTER_QUANTITY_FILE);
+        Map<Character, Integer> letterPointMap = loadLetterProperties(LETTER_POINTS_FILE);
+        Map<Character, Integer> letterQuantityMap = loadLetterProperties(LETTER_QUANTITY_FILE);
 
-        for (Map.Entry<String, Integer> letterPoint : letterPointMap.entrySet()) {
+        for (Map.Entry<Character, Integer> letterPoint : letterPointMap.entrySet()) {
             Letter letter = new Letter(letterPoint.getKey(), letterPoint.getValue());
 
             int quantity = letterQuantityMap.get(letter.getName());
@@ -72,22 +66,21 @@ public class GameUtils {
         return letterList;
     }
 
-    private static Map<String, Integer> loadLetterProperties(String fileName) {
-        Map<String, Integer> latterMap = new HashMap<String, Integer>();
+    private static Map<Character, Integer> loadLetterProperties(String fileName) {
+        Map<Character, Integer> latterMap = new HashMap<Character, Integer>();
 
         try {
             Properties properties = new Properties();
             properties.load(Game.class.getClassLoader().getResourceAsStream(fileName));
 
             for (Map.Entry entry : properties.entrySet()) {
-                String latter = (String) entry.getKey();
+                Character letter = ((String) entry.getKey()).charAt(0);
                 Integer value = Integer.parseInt((String) entry.getValue());
 
-                latterMap.put(latter.toLowerCase(), value);
+                latterMap.put(Character.toLowerCase(letter), value);
             }
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new IllegalStateException("Latter property file not found!", e);
         }
 

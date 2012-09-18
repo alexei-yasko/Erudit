@@ -20,7 +20,7 @@ public class User {
 
     /**
      * Method for additional game step processing.
-     *
+     * <p/>
      * <p>Purpose of this method it's automatic step processing, for example by game bot.
      * You can extend User class, and override this method.
      * </p>
@@ -34,14 +34,14 @@ public class User {
         points += additionalPoints;
     }
 
-    public boolean isHaveLetter(String letterName) {
+    public boolean isHaveLetter(Character letterName) {
         return getLatterByName(letterName) != null;
     }
 
-    public Letter getLatterByName(String name) {
+    public Letter getLatterByName(Character name) {
         for (Letter letter : latterList) {
 
-            if (letter.getName().equals(name.toLowerCase())) {
+            if (letter.getName().equals(Character.toLowerCase(name))) {
                 return letter;
             }
         }

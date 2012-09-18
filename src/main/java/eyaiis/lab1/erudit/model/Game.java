@@ -2,7 +2,6 @@ package eyaiis.lab1.erudit.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * The main object that process game flow.
@@ -21,7 +20,7 @@ public class Game {
 
     private GameFieldModel gameFieldModel;
 
-    //all free letter
+    //all free letters
     private LetterBox letterBox;
 
     private List<User> userList = new ArrayList<User>();
@@ -48,16 +47,15 @@ public class Game {
         currentUser = userList.get(0);
     }
 
-    public void nextStep(Map<Integer, Letter> newWordLetters) {
+    public void nextStep(List<Letter> word) {
         //check for letter list, and if it empty increase user points
         if (currentUser.getLatterList().isEmpty()) {
             currentUser.increasePoints(POINTS_FOR_EMPTY_LETTER_LIST);
         }
 
-        //update field model and increase user points
-        for (Map.Entry<Integer, Letter> letterEntry : newWordLetters.entrySet()) {
-            gameFieldModel.setLetter(letterEntry.getValue(), letterEntry.getKey());
-            currentUser.increasePoints(letterEntry.getValue().getLetterPoints());
+        //increase user points
+        for (Letter letter : word) {
+            currentUser.increasePoints(letter.getLetterPoints());
         }
 
         System.out.println("User points: '" + currentUser.getPoints() + "'");
@@ -104,22 +102,25 @@ public class Game {
     }
 
     private void setStartWordOnGameFieldCenter(List<Letter> startWord) {
-        int indexOfCentralElementOnField = (FIELD_HEIGHT * FIELD_WIDTH - 1) / 2 + 1;
+        int rowOfCentralElement = (FIELD_HEIGHT) / 2;
+        int columnOfCentralElement = (FIELD_WIDTH) / 2;
 
-        int indexOfCentralLetterInWord = (startWord.size() + 1) / 2;
+        int indexOfCentralLetter = (startWord.size() + 1) / 2;
 
         //set letters before central letter
-        for (int i = 0; i < indexOfCentralLetterInWord; i++) {
-            int letterFieldIndex = gameFieldModel.getLeftCellIndex(indexOfCentralElementOnField - i);
-            int letterWordIndex = indexOfCentralLetterInWord - i - 1;
-            gameFieldModel.setLetter(startWord.get(letterWordIndex), letterFieldIndex);
+        for (int i = 0; i < indexOfCentralLetter; i++) {
+            Position position =
+                gameFieldModel.getLeftCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - i));
+            int letterIndex = indexOfCentralLetter - i - 1;
+            gameFieldModel.setLetter(startWord.get(letterIndex), position);
         }
 
         //set central letter and letters after the central letter
-        for (int i = 0; i < startWord.size() - indexOfCentralLetterInWord; i++) {
-            int letterFieldIndex = gameFieldModel.getRightCellIndex(indexOfCentralElementOnField - 1 + i);
-            int letterWordIndex = indexOfCentralLetterInWord + i;
-            gameFieldModel.setLetter(startWord.get(letterWordIndex), letterFieldIndex);
+        for (int i = 0; i < startWord.size() - indexOfCentralLetter; i++) {
+            Position position =
+                gameFieldModel.getRightCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - 1 + i));
+            int letterIndex = indexOfCentralLetter + i;
+            gameFieldModel.setLetter(startWord.get(letterIndex), position);
         }
     }
 }

@@ -1,22 +1,21 @@
 package eyaiis.lab1.erudit;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.*;
-
 import eyaiis.lab1.erudit.model.Game;
 import eyaiis.lab1.erudit.model.GameUtils;
 import eyaiis.lab1.erudit.model.Letter;
 import eyaiis.lab1.erudit.view.*;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Q-YAA
@@ -74,8 +73,7 @@ public class MainFrame extends JFrame {
             if (isStepValid(chosenLetterCell)) {
                 processStep(game, chosenLetterCell);
                 gameFieldComponent.refreshGameField();
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(MainFrame.this, "Correct your word!");
             }
 
@@ -85,23 +83,21 @@ public class MainFrame extends JFrame {
         }
     }
 
-    private boolean isStepValid(List<LetterCellComponent> chosenLetterCell) {
-        return chosenLetterCell.isEmpty() ||
-            (isChosenCellRight(chosenLetterCell) && isChosenWordValid(composeWord(chosenLetterCell)));
+    private boolean isStepValid(List<LetterCellComponent> chosenLetterCells) {
+        return chosenLetterCells.isEmpty() ||
+            (isChosenCellsRight(chosenLetterCells) && isChosenWordValid(composeWord(chosenLetterCells)));
     }
 
     private void processStep(Game game, List<LetterCellComponent> chosenLetterCell) {
-
-        Map<Integer, Letter> newWordLetters = new HashMap<Integer, Letter>();
 
         for (LetterCellComponent letterCell : chosenLetterCell) {
             letterCell.setAvailable(false);
             letterCell.setChoose(false);
 
-            newWordLetters.put(letterCell.getCellNumber(), letterCell.getLetter());
+            game.getGameFieldModel().setLetter(letterCell.getLetter(), letterCell.getPosition());
         }
 
-        game.nextStep(newWordLetters);
+        game.nextStep(composeWord(chosenLetterCell));
     }
 
     private List<Letter> composeWord(List<LetterCellComponent> chosenLetterCell) {
@@ -123,7 +119,7 @@ public class MainFrame extends JFrame {
         return GameUtils.isWordValid(word);
     }
 
-    private boolean isChosenCellRight(List<LetterCellComponent> letterCellComponentList) {
+    private boolean isChosenCellsRight(List<LetterCellComponent> letterCellComponentList) {
         boolean isCellListIncludeUnavailableCell = false;
         boolean isCellListIncludeAvailableCell = false;
 

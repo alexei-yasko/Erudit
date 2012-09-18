@@ -1,16 +1,11 @@
 package eyaiis.lab1.erudit.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.Rectangle2D;
+import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.Position;
 
 import javax.swing.JButton;
-
-import eyaiis.lab1.erudit.model.Letter;
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 /**
  * Component for display and set letter on games field.
@@ -18,15 +13,15 @@ import eyaiis.lab1.erudit.model.Letter;
  * @author Q-YAA
  */
 public class LetterCellComponent extends JButton {
-    private int cellNumber;
+    private Position position;
 
     private Letter letter;
 
     private boolean isAvailable = true;
     private boolean isChoose = false;
 
-    public LetterCellComponent(int width, int height, int cellNumber) {
-        this.cellNumber = cellNumber;
+    public LetterCellComponent(int width, int height, Position position) {
+        this.position = position;
 
         setSize(width, height);
         setPreferredSize(new Dimension(width, height));
@@ -56,8 +51,8 @@ public class LetterCellComponent extends JButton {
         isChoose = choose;
     }
 
-    public int getCellNumber() {
-        return cellNumber;
+    public Position getPosition() {
+        return position;
     }
 
     @Override
@@ -66,8 +61,7 @@ public class LetterCellComponent extends JButton {
 
         if (isChoose()) {
             graphics2D.setColor(Color.decode("#87CEEB"));
-        }
-        else {
+        } else {
             graphics2D.setColor(Color.decode("#FAEBD7"));
         }
 
@@ -78,19 +72,20 @@ public class LetterCellComponent extends JButton {
         graphics2D.setFont(font);
 
         if (letter != null) {
-            graphics2D.drawString(letter.getName(), getLetterPositionX(font, graphics2D), getLetterPositionY(font, graphics2D));
+            graphics2D.drawString(
+                letter.getName().toString(), getViewPositionX(font, graphics2D), getViewPositionY(font, graphics2D));
         }
     }
 
-    private int getLetterPositionX(Font font, Graphics2D graphics2D) {
+    private int getViewPositionX(Font font, Graphics2D graphics2D) {
         FontMetrics fontMetrics = getFontMetrics(font);
-        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName(), graphics2D);
+        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName().toString(), graphics2D);
         return (int) (getWidth() - letterSize.getWidth()) / 2;
     }
 
-    private int getLetterPositionY(Font font, Graphics2D graphics2D) {
+    private int getViewPositionY(Font font, Graphics2D graphics2D) {
         FontMetrics fontMetrics = getFontMetrics(font);
-        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName(), graphics2D);
-        return (int) (getHeight() - letterSize.getHeight()) / 2 + + fontMetrics.getAscent();
+        Rectangle2D letterSize = fontMetrics.getStringBounds(letter.getName().toString(), graphics2D);
+        return (int) (getHeight() - letterSize.getHeight()) / 2 + +fontMetrics.getAscent();
     }
 }

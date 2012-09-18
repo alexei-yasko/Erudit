@@ -7,12 +7,12 @@ package eyaiis.lab1.erudit.model;
  */
 public class Letter {
 
-    private String name;
+    private Character name;
 
     private int letterPoints;
 
-    public Letter(String name, int letterPoints) {
-        this.name = name.toLowerCase();
+    public Letter(Character name, int letterPoints) {
+        this.name = name;
         this.letterPoints = letterPoints;
     }
 
@@ -20,7 +20,7 @@ public class Letter {
         return letterPoints;
     }
 
-    public String getName() {
+    public Character getName() {
         return name;
     }
 
@@ -55,8 +55,8 @@ public class Letter {
     @Override
     public String toString() {
         return "Letter{" +
-            "letterPoints=" + letterPoints +
-            ", name='" + name + '\'' +
-            '}';
+                "letterPoints=" + letterPoints +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

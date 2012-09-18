@@ -20,7 +20,7 @@ public class LetterBox {
      *
      * @return Letter letter object
      */
-    public Letter getLetterByName(String name) {
+    public Letter getLetterByName(Character name) {
         for (Letter letter : letterList) {
 
             if (letter.getName().equals(name)) {
