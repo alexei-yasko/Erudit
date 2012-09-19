@@ -115,7 +115,7 @@ public class MainFrame extends JFrame {
     }
 
     private boolean isChosenWordValid(List<Letter> word) {
-        return GameUtils.isWordValid(word);
+        return GameUtils.isWordExist(game.getDictionary(), word);
     }
 
     private boolean isChosenCellsRight(List<LetterCellComponent> letterCellComponentList) {

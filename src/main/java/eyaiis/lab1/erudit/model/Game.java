@@ -3,6 +3,8 @@ package eyaiis.lab1.erudit.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import eyaiis.lab1.erudit.dictionary.Dictionary;
+
 /**
  * The main object that process game flow.
  *
@@ -18,6 +20,8 @@ public class Game {
 
     private static final int POINTS_FOR_EMPTY_LETTER_LIST = 50;
 
+    private Dictionary dictionary;
+
     private GameFieldModel gameFieldModel;
 
     //all free letters
@@ -30,13 +34,14 @@ public class Game {
     public Game(List<User> userList) {
         this.userList = userList;
 
+        dictionary = new Dictionary();
         letterBox = new LetterBox(GameUtils.loadLetterListFromResource());
         gameFieldModel = new GameFieldModel(FIELD_WIDTH, FIELD_HEIGHT);
     }
 
     public void startGame() {
         //set first(start) word on the game field
-        List<Letter> startWord = GameUtils.getRandomWordFromLetterBox(letterBox);
+        List<Letter> startWord = GameUtils.getRandomWord(dictionary, letterBox);
         setStartWordOnGameFieldCenter(startWord);
 
         //deal letters for every user
@@ -86,6 +91,10 @@ public class Game {
         return userList;
     }
 
+    public Dictionary getDictionary() {
+        return dictionary;
+    }
+
     public static int getCardOnHandsQuantity() {
         return CARD_ON_HANDS_QUANTITY;
     }
@@ -102,10 +111,10 @@ public class Game {
     }
 
     private void setStartWordOnGameFieldCenter(List<Letter> startWord) {
-        int rowOfCentralElement = (FIELD_HEIGHT) / 2;
-        int columnOfCentralElement = (FIELD_WIDTH) / 2;
+        int rowOfCentralElement = FIELD_HEIGHT / 2;
+        int columnOfCentralElement = FIELD_WIDTH / 2;
 
-        int indexOfCentralLetter = (startWord.size() + 1) / 2;
+        int indexOfCentralLetter = startWord.size() / 2;
 
         //set letters before central letter
         for (int i = 0; i < indexOfCentralLetter; i++) {

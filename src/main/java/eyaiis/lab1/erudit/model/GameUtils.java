@@ -1,7 +1,14 @@
 package eyaiis.lab1.erudit.model;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import eyaiis.lab1.erudit.dictionary.Dictionary;
+
 
 /**
  * @author Q-YAA
@@ -11,35 +18,41 @@ public class GameUtils {
     private static final String LETTER_POINTS_FILE = "letterPoints.properties";
     private static final String LETTER_QUANTITY_FILE = "letterQuantity.properties";
 
-
-    /**
-     * Method that check if given word exist in dictionary.
-     *
-     * @param word List<Letter> given word
-     * @return true - word exist in dictionary, false - word doesn't exist in dictionary
-     */
-    public static boolean isWordValid(List<Letter> word) {
-        //TODO: check word in the dictionary
-        return true;
-    }
-
     /**
      * Create random word from dictionary, and take letters for it from given letter box.
      *
+     * @param dictionary loaded dictionary
      * @param letterBox letter box
      * @return List<Letter> random word
      */
-    public static List<Letter> getRandomWordFromLetterBox(LetterBox letterBox) {
+    public static List<Letter> getRandomWord(Dictionary dictionary, LetterBox letterBox) {
         List<Letter> resultWord = new ArrayList<Letter>();
 
-        //TODO: take this word from dictionary
-        String randomWord = "рандом";
+        String randomWord = dictionary.getRandomWord();
 
         for (Character name : randomWord.toCharArray()) {
             resultWord.add(letterBox.getLetterByName(name));
         }
 
         return resultWord;
+    }
+
+    /**
+     * Method that check if given word exist in dictionary.
+     *
+     * @param dictionary dictionary
+     * @param word List<Letter> given word
+     * @return true - word exist in dictionary, false - word doesn't exist in dictionary
+     */
+    public static boolean isWordExist(Dictionary dictionary, List<Letter> word) {
+
+        StringBuffer buffer = new StringBuffer();
+
+        for (Letter letter : word) {
+            buffer.append(letter.getName());
+        }
+
+        return dictionary.isWordExist(buffer.toString());
     }
 
     /**
@@ -80,7 +93,8 @@ public class GameUtils {
                 latterMap.put(Character.toLowerCase(letter), value);
             }
 
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new IllegalStateException("Latter property file not found!", e);
         }
 
