@@ -19,7 +19,7 @@ public class Dictionary {
 
     private static final String DICTIONARY_FILE_NAME = "dictionary/dictionary.txt";
 
-    //key - the first two letters of the word, value - corresponding word
+    //key - the first two letters of the word (prefix), value - corresponding word
     private Map<String, List<String>> dictionary = new HashMap<String, List<String>>();
 
     private static final int DICTIONARY_KEY_LENGTH = 2;
@@ -43,6 +43,54 @@ public class Dictionary {
         index = random.nextInt(wordList.size());
 
         return wordList.get(index);
+    }
+
+    public List<String> getPossibleWordsFromLetters(List<Character> letterList) {
+        List<String> wordWithPossiblePrefixes = new ArrayList<String>();
+
+        for (String prefix : getPossibleWordPrefixesFromLetters(letterList)) {
+            wordWithPossiblePrefixes.addAll(dictionary.get(prefix));
+        }
+
+        List<String> possibleWords = new ArrayList<String>();
+
+        for (String word : wordWithPossiblePrefixes) {
+            if (isStringPossibleFromLetters(letterList, word)) {
+                possibleWords.add(word);
+            }
+        }
+
+        return possibleWords;
+    }
+
+    private List<String> getPossibleWordPrefixesFromLetters(List<Character> letterList) {
+
+        List<String> possiblePrefixes = new ArrayList<String>();
+
+        for (String prefix : dictionary.keySet()) {
+
+            if(isStringPossibleFromLetters(letterList, prefix)) {
+                possiblePrefixes.add(prefix);
+            }
+        }
+
+        return possiblePrefixes;
+    }
+
+    private boolean isStringPossibleFromLetters(List<Character> letterList, String string) {
+        letterList = new ArrayList<Character>(letterList);
+        boolean isPrefixPossible = true;
+
+        for (Character character : string.toCharArray()) {
+            if (!letterList.contains(character)) {
+                isPrefixPossible = false;
+            }
+            else {
+                letterList.remove(letterList.indexOf(character));
+            }
+        }
+
+        return isPrefixPossible;
     }
 
     private void loadDictionary() {

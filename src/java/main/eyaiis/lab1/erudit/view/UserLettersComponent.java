@@ -46,7 +46,7 @@ public class UserLettersComponent extends JPanel {
     }
 
     private void setLettersOnThePanel(JPanel lettersPanel, Game game) {
-        for (Letter letter : game.getCurrentUser().getLatterList()) {
+        for (Letter letter : game.getCurrentUser().getLetterList()) {
             lettersPanel.add(createLabel(letter.getName().toString(), FONT));
         }
     }

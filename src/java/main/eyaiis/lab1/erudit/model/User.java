@@ -8,11 +8,11 @@ import java.util.List;
  */
 public class User {
 
-    private String name;
+    protected String name;
 
-    private int points;
+    protected int points;
 
-    private List<Letter> latterList = new ArrayList<Letter>();
+    protected List<Letter> letterList = new ArrayList<Letter>();
 
     public User(String name) {
         this.name = name;
@@ -34,12 +34,12 @@ public class User {
         points += additionalPoints;
     }
 
-    public boolean isHaveLetter(Character letterName) {
+    public boolean isHasLetter(Character letterName) {
         return getLatterByName(letterName) != null;
     }
 
     public Letter getLatterByName(Character name) {
-        for (Letter letter : latterList) {
+        for (Letter letter : letterList) {
 
             if (letter.getName().equals(Character.toLowerCase(name))) {
                 return letter;
@@ -50,19 +50,19 @@ public class User {
     }
 
     public void addLater(Letter later) {
-        latterList.add(later);
+        letterList.add(later);
     }
 
     public void addLater(List<? extends Letter> latterList) {
-        this.latterList.addAll(latterList);
+        this.letterList.addAll(latterList);
     }
 
     public void removeLatter(Letter letter) {
-        latterList.remove(letter);
+        letterList.remove(letter);
     }
 
     public void removeLatter(List<String> latterList) {
-        this.latterList.removeAll(latterList);
+        this.letterList.removeAll(latterList);
     }
 
     public String getName() {
@@ -81,11 +81,11 @@ public class User {
         this.points = points;
     }
 
-    public List<Letter> getLatterList() {
-        return latterList;
+    public List<Letter> getLetterList() {
+        return letterList;
     }
 
-    public void setLatterList(List<Letter> latterList) {
-        this.latterList = latterList;
+    public void setLetterList(List<Letter> letterList) {
+        this.letterList = letterList;
     }
 }

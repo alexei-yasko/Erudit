@@ -46,7 +46,7 @@ public class Game {
 
         //deal letters for every user
         for (User user : userList) {
-            user.setLatterList(letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY));
+            user.setLetterList(letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY));
         }
 
         currentUser = userList.get(0);
@@ -54,7 +54,7 @@ public class Game {
 
     public void nextStep(List<Letter> word) {
         //check for letter list, and if it empty increase user points
-        if (currentUser.getLatterList().isEmpty()) {
+        if (currentUser.getLetterList().isEmpty()) {
             currentUser.increasePoints(POINTS_FOR_EMPTY_LETTER_LIST);
         }
 
@@ -66,7 +66,7 @@ public class Game {
         System.out.println("User points: '" + currentUser.getPoints() + "'");
 
         //get missing letters for user
-        List<Letter> letterList = letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY - currentUser.getLatterList().size());
+        List<Letter> letterList = letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY - currentUser.getLetterList().size());
         currentUser.addLater(letterList);
 
         currentUser = determineNextUser(currentUser);

@@ -133,7 +133,7 @@ public class GameFieldComponent extends JPanel {
             User currentUser = game.getCurrentUser();
             String letterName = JOptionPane.showInputDialog(GameFieldComponent.this, "Choose letterName");
 
-            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHaveLetter(letterName.charAt(0))) {
+            if (!Strings.isNullOrEmpty(letterName) && currentUser.isHasLetter(letterName.charAt(0))) {
                 letterCellComponent.setLetter(currentUser.getLatterByName(letterName.charAt(0)));
                 currentUser.removeLatter(letterCellComponent.getLetter());
 
