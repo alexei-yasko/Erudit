@@ -13,6 +13,8 @@ import java.util.Map;
 import java.util.Random;
 
 /**
+ * Class for working with language dictionary.
+ *
  * @author Q-YAA
  */
 public class Dictionary {
@@ -28,12 +30,23 @@ public class Dictionary {
         loadDictionary();
     }
 
+    /**
+     * Check if the given word exist in the dictionary.
+     *
+     * @param word word for checking
+     * @return true - if word exist in the dictionary, false - if word doesn't exist in the dictionary
+     */
     public boolean isWordExist(String word) {
         List<String> wordList = dictionary.get(word.substring(0, DICTIONARY_KEY_LENGTH));
 
         return wordList != null && wordList.contains(word);
     }
 
+    /**
+     * Method that choose random word from dictionary.
+     *
+     * @return String random word
+     */
     public String getRandomWord() {
         Random random = new Random();
         int index = random.nextInt(dictionary.size());
@@ -45,6 +58,12 @@ public class Dictionary {
         return wordList.get(index);
     }
 
+    /**
+     * Method that returns all the words from the dictionary that could be composed from the given letters.
+     *
+     * @param letterList letters list
+     * @return found words
+     */
     public List<String> composeWordsFromLetters(List<Character> letterList) {
         List<String> wordWithPossiblePrefixes = new ArrayList<String>();
 
@@ -61,6 +80,19 @@ public class Dictionary {
         }
 
         return possibleWords;
+    }
+
+    /**
+     * Delete the given word from the dictionary.
+     *
+     * @param word word for deleting
+     */
+    public void deleteWord(String word) {
+        List<String> suitableWordList = dictionary.get(word.substring(0, DICTIONARY_KEY_LENGTH));
+
+        if (suitableWordList != null) {
+            suitableWordList.remove(word);
+        }
     }
 
     private List<String> getPossibleWordPrefixesFromLetters(List<Character> letterList) {

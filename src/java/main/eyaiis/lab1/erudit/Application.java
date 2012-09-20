@@ -14,7 +14,7 @@ public class Application {
     public static void main(String[] args) {
 
         Game game = new Game(Arrays.asList(
-            new User("user1"),
+            new User("user"),
             new Bot("Computer"))
         );
 

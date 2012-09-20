@@ -68,6 +68,34 @@ public class GameFieldModel {
     }
 
     /**
+     * Set letter list in the column.
+     *
+     * @param columnIndex index of the column
+     * @param beginIndex index from which the letters sets in the column
+     * @param letterList list of letter for set
+     */
+    public void setColumn(int columnIndex, int beginIndex, List<Letter> letterList) {
+
+        for (int i = beginIndex; i < letterList.size(); i++) {
+            setLetter(letterList.get(i - beginIndex), new Position(i, columnIndex));
+        }
+    }
+
+    /**
+     * Set letter list in the row.
+     *
+     * @param rowIndex index of the row
+     * @param beginIndex index from which the letters sets in the row
+     * @param letterList list of letter for set
+     */
+    public void setRow(int rowIndex, int beginIndex, List<Letter> letterList) {
+
+        for (int i = beginIndex; i < letterList.size(); i++) {
+            setLetter(letterList.get(i - beginIndex), new Position(rowIndex, i));
+        }
+    }
+
+    /**
      * Return the position of the cell that is the top for the cell with the given position.
      *
      * @param currentPosition positions of current cell

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class for user of the game.
+ *
  * @author Q-YAA
  */
 public class User {
@@ -22,15 +24,15 @@ public class User {
 
     /**
      * Method for additional game step processing.
-     * <p/>
+     *
      * <p>Purpose of this method it's automatic step processing, for example by game bot.
      * You can extend User class, and override this method.
      * </p>
      *
-     * @param gameFieldModel game field
+     * @param game game object
      * @param dictionary dictionary
      */
-    public void executeStep(GameFieldModel gameFieldModel, Dictionary dictionary) {
+    public void executeStep(Game game, Dictionary dictionary) {
     }
 
     public void increasePoints(int additionalPoints) {

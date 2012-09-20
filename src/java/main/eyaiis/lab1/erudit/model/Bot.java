@@ -22,7 +22,9 @@ public class Bot extends User {
     }
 
     @Override
-    public void executeStep(GameFieldModel gameFieldModel, Dictionary dictionary) {
+    public void executeStep(Game game, Dictionary dictionary) {
+        GameFieldModel gameFieldModel = game.getGameFieldModel();
+
         Map<Word, Integer> moreSuitableWordForColumns = getMoreSuitableWordForColumns(gameFieldModel, dictionary);
         Map<Word, Integer> moreSuitableWordForRows = getMoreSuitableWordForRows(gameFieldModel, dictionary);
 
@@ -32,19 +34,73 @@ public class Bot extends User {
         Word resultWord = getMoreSuitableWord(Arrays.asList(moreSuitableWordForAllColumns, moreSuitableWordForAllRows), 0);
 
         if (moreSuitableWordForColumns.get(resultWord) != null) {
-            placeWordInColumn(resultWord, moreSuitableWordForColumns.get(resultWord));
+            int columnIndex = moreSuitableWordForColumns.get(resultWord);
+            placeWordInColumn(resultWord, gameFieldModel, columnIndex);
         }
         else if (moreSuitableWordForRows.get(resultWord) != null) {
-            placeWordInRow(resultWord, moreSuitableWordForRows.get(resultWord));
+            int rowIndex = moreSuitableWordForRows.get(resultWord);
+            placeWordInRow(resultWord, gameFieldModel, rowIndex);
+        }
+
+        if (resultWord != null) {
+            dictionary.deleteWord(resultWord.convertToString());
+            removeWordLettersFromUserHand(resultWord);
+        }
+
+        game.nextStep(resultWord);
+    }
+
+    private void removeWordLettersFromUserHand(Word word) {
+
+        for (Letter letter : word.getLettersOfWord()) {
+            getLetterList().remove(letter);
         }
     }
 
-    private void placeWordInColumn(Word word, int columnNumber) {
-
+    private void placeWordInColumn(Word word, GameFieldModel gameFieldModel, int columnIndex) {
+        List<Letter> column = gameFieldModel.getColumn(columnIndex);
+        List<Letter> rightPlacementWordInColumn = getRightPlacementOfWord(word, column);
+        gameFieldModel.setColumn(columnIndex, 0, rightPlacementWordInColumn);
     }
 
-    private void placeWordInRow(Word word, int rowNumber) {
+    private void placeWordInRow(Word word, GameFieldModel gameFieldModel, int rowIndex) {
+        List<Letter> row = gameFieldModel.getRow(rowIndex);
+        List<Letter> rightPlacementWordInColumn = getRightPlacementOfWord(word, row);
+        gameFieldModel.setRow(rowIndex, 0, rightPlacementWordInColumn);
+    }
 
+
+    private List<Letter> getRightPlacementOfWord(Word word, List<Letter> columnOrRow) {
+        int possibleWordPositions = columnOrRow.size() - word.getLength();
+
+        for (int i = 0; i < possibleWordPositions; i++) {
+            List<Letter> experimentalColumnOrRow = new ArrayList<Letter>(columnOrRow);
+
+            for (int j = i; j < i + word.getLength(); j++) {
+                experimentalColumnOrRow.set(j, word.getLetter(j - i));
+            }
+
+            if (isRightWordPosition(i, i + word.getLength(), experimentalColumnOrRow, columnOrRow)) {
+                return experimentalColumnOrRow;
+            }
+        }
+
+        return null;
+    }
+
+    private boolean isRightWordPosition(
+        int beginIndex, int endIndex, List<Letter> experimentalColumnOrRow, List<Letter> columnOrRow) {
+
+        boolean isRightPosition = false;
+
+        for (int i = beginIndex; i < endIndex; i++) {
+
+            if (columnOrRow.get(i) != null && columnOrRow.get(i).equals(experimentalColumnOrRow.get(i))) {
+                isRightPosition = true;
+            }
+        }
+
+        return isRightPosition;
     }
 
     private Map<Word, Integer> getMoreSuitableWordForRows(GameFieldModel gameFieldModel, Dictionary dictionary) {
@@ -52,7 +108,7 @@ public class Bot extends User {
 
         for (int i = 0; i < gameFieldModel.getFieldHeight(); i++) {
             List<Letter> row = gameFieldModel.getRow(i);
-            Word moreSuitableWord = getMoreSuitableWordForRowOrColumn(row, gameFieldModel, dictionary);
+            Word moreSuitableWord = getMoreSuitableWordForRowOrColumn(row, dictionary);
 
             if (moreSuitableWord != null) {
                 moreSuitableWordForRow.put(moreSuitableWord, i);
@@ -67,7 +123,7 @@ public class Bot extends User {
 
         for (int i = 0; i < gameFieldModel.getFieldWidth(); i++) {
             List<Letter> column = gameFieldModel.getColumn(i);
-            Word moreSuitableWord = getMoreSuitableWordForRowOrColumn(column, gameFieldModel, dictionary);
+            Word moreSuitableWord = getMoreSuitableWordForRowOrColumn(column, dictionary);
 
             if (moreSuitableWord != null) {
                 moreSuitableWordForColumns.put(moreSuitableWord, i);
@@ -78,9 +134,9 @@ public class Bot extends User {
     }
 
     private Word getMoreSuitableWordForRowOrColumn(
-        List<Letter> rowOrColumn, GameFieldModel gameFieldModel, Dictionary dictionary) {
+        List<Letter> rowOrColumn, Dictionary dictionary) {
 
-        List<Letter> placedLetters = getPlacedLetters(rowOrColumn);
+        List<Letter> placedLetters = getPlacedLettersInRowOrColumn(rowOrColumn);
 
         if (!placedLetters.isEmpty()) {
             List<Letter> possibleLettersForWords = new ArrayList<Letter>(getLetterList());
@@ -149,7 +205,7 @@ public class Bot extends User {
         return regexpBuilder.toString();
     }
 
-    private List<Letter> getPlacedLetters(List<Letter> columnOrRow) {
+    private List<Letter> getPlacedLettersInRowOrColumn(List<Letter> columnOrRow) {
         List<Letter> placedLetters = new ArrayList<Letter>();
 
         for (Letter letter : columnOrRow) {

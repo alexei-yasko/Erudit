@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 
 import eyaiis.lab1.erudit.model.Game;
 import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.User;
 import eyaiis.lab1.erudit.model.Word;
 import eyaiis.lab1.erudit.view.GameFieldComponent;
 import eyaiis.lab1.erudit.view.LetterCellComparator;
@@ -28,6 +29,7 @@ import eyaiis.lab1.erudit.view.UserLettersComponent;
 public class MainFrame extends JFrame {
 
     private static final String TITLE = "Scrabble game";
+    private static final String WIN_MESSAGE_PATTERN = "User '%s' with '%s' points win!!!!";
 
     private static final int DEFAULT_WIDTH = 900;
     private static final int DEFAULT_HEIGHT = 700;
@@ -36,6 +38,7 @@ public class MainFrame extends JFrame {
 
     private GameFieldComponent gameFieldComponent;
 
+    private JButton endGameButton;
     private JButton endStepButton;
 
     public MainFrame(Game game) {
@@ -46,6 +49,10 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
+        initGameFrame();
+    }
+
+    public void initGameFrame() {
         gameFieldComponent = new GameFieldComponent(game);
         add(gameFieldComponent, BorderLayout.CENTER);
 
@@ -54,6 +61,11 @@ public class MainFrame extends JFrame {
         endStepButton = new JButton("End step");
         endStepButton.addActionListener(new EndStepButtonActionListener());
         buttonPanel.add(endStepButton);
+
+        endGameButton = new JButton("End Game");
+        endGameButton.addActionListener(new EndGameButton());
+        buttonPanel.add(endGameButton);
+
         add(buttonPanel, BorderLayout.SOUTH);
 
         add(new ScoreComponent(game), BorderLayout.EAST);
@@ -66,6 +78,41 @@ public class MainFrame extends JFrame {
     private void refresh() {
         gameFieldComponent.refreshGameField();
         repaint();
+    }
+
+    private class EndGameButton implements ActionListener {
+
+        public void actionPerformed(ActionEvent e) {
+
+            if (endStepButton.isEnabled()) {
+                endGame();
+            }
+            else {
+                startNewGame();
+            }
+
+        }
+
+        private void endGame() {
+            endStepButton.setEnabled(false);
+            endGameButton.setText("New game");
+
+            User winnerUser = game.getWinner();
+
+            JOptionPane.showMessageDialog(
+                MainFrame.this, String.format(WIN_MESSAGE_PATTERN, winnerUser.getName(), winnerUser.getPoints()));
+        }
+
+        private void startNewGame() {
+//            endGameButton.setText("End game");
+//            endStepButton.setEnabled(true);
+//
+//            game = new Game(game.getUserList());
+//            //initGameFrame();
+//            game.startGame();
+//            refresh();
+        }
+
     }
 
     private class EndStepButtonActionListener implements ActionListener {

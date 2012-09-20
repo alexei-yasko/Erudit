@@ -53,13 +53,17 @@ public class Game {
     }
 
     public void nextStep(Word word) {
-        //check for letter list, and if it empty increase user points
-        if (currentUser.getLetterList().isEmpty()) {
-            currentUser.increasePoints(POINTS_FOR_EMPTY_LETTER_LIST);
-        }
 
-        //increase user points
-        currentUser.increasePoints(word.calculateWordPoints());
+        if (word != null) {
+
+            //check for letter list, and if it empty increase user points
+            if (currentUser.getLetterList().isEmpty()) {
+                currentUser.increasePoints(POINTS_FOR_EMPTY_LETTER_LIST);
+            }
+
+            //increase user points
+            currentUser.increasePoints(word.calculateWordPoints());
+        }
 
         System.out.println("User points: '" + currentUser.getPoints() + "'");
 
@@ -70,7 +74,23 @@ public class Game {
         currentUser = determineNextUser(currentUser);
 
         //this will help to implement the game bot
-        currentUser.executeStep(gameFieldModel, dictionary);
+        currentUser.executeStep(this, dictionary);
+    }
+
+    public User getWinner() {
+
+        int maxPoints = 0;
+        User winnerUser = null;
+
+        for (User user : userList) {
+
+            if (user.getPoints() >= maxPoints) {
+                winnerUser = user;
+                maxPoints = user.getPoints();
+            }
+        }
+
+        return winnerUser;
     }
 
     public void addUser(User user) {
