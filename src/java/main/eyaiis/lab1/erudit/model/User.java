@@ -1,5 +1,7 @@
 package eyaiis.lab1.erudit.model;
 
+import eyaiis.lab1.erudit.dictionary.Dictionary;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +27,10 @@ public class User {
      * You can extend User class, and override this method.
      * </p>
      *
-     * @param gameFieldModel GameFieldModel game field
+     * @param gameFieldModel game field
+     * @param dictionary dictionary
      */
-    public void executeStep(GameFieldModel gameFieldModel) {
+    public void executeStep(GameFieldModel gameFieldModel, Dictionary dictionary) {
     }
 
     public void increasePoints(int additionalPoints) {

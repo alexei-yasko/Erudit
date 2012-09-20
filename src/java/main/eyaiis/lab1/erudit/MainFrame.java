@@ -1,14 +1,5 @@
 package eyaiis.lab1.erudit;
 
-import eyaiis.lab1.erudit.model.Game;
-import eyaiis.lab1.erudit.model.GameUtils;
-import eyaiis.lab1.erudit.model.Letter;
-import eyaiis.lab1.erudit.view.*;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +7,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.Word;
+import eyaiis.lab1.erudit.view.GameFieldComponent;
+import eyaiis.lab1.erudit.view.LetterCellComparator;
+import eyaiis.lab1.erudit.view.LetterCellComponent;
+import eyaiis.lab1.erudit.view.ScoreComponent;
+import eyaiis.lab1.erudit.view.UserLettersComponent;
 
 /**
  * @author Q-YAA
@@ -72,7 +77,8 @@ public class MainFrame extends JFrame {
 
             if (isStepValid(chosenLetterCell)) {
                 processStep(game, chosenLetterCell);
-            } else {
+            }
+            else {
                 JOptionPane.showMessageDialog(MainFrame.this, "Correct your word!");
             }
 
@@ -99,23 +105,23 @@ public class MainFrame extends JFrame {
         game.nextStep(composeWord(chosenLetterCell));
     }
 
-    private List<Letter> composeWord(List<LetterCellComponent> chosenLetterCell) {
+    private Word composeWord(List<LetterCellComponent> chosenLetterCell) {
         sortLetterCell(chosenLetterCell);
 
-        List<Letter> word = new ArrayList<Letter>();
+        List<Letter> wordLetters = new ArrayList<Letter>();
         for (LetterCellComponent letterCellComponent : chosenLetterCell) {
-            word.add(letterCellComponent.getLetter());
+            wordLetters.add(letterCellComponent.getLetter());
 
             System.out.print(letterCellComponent.getLetter().getName());
         }
 
         System.out.println("");
 
-        return word;
+        return new Word(wordLetters);
     }
 
-    private boolean isChosenWordValid(List<Letter> word) {
-        return GameUtils.isWordExist(game.getDictionary(), word);
+    private boolean isChosenWordValid(Word word) {
+        return game.getDictionary().isWordExist(word.convertToString());
     }
 
     private boolean isChosenCellsRight(List<LetterCellComponent> letterCellComponentList) {

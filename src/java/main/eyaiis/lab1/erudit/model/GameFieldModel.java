@@ -25,7 +25,7 @@ public class GameFieldModel {
     /**
      * Set letter to the given position. Replace old latter.
      *
-     * @param letter   letter]
+     * @param letter letter
      * @param position Position letter position on the field
      */
     public void setLetter(Letter letter, Position position) {
@@ -48,7 +48,7 @@ public class GameFieldModel {
      * @param rowIndex row index
      * @return List<Letter> row from the field
      */
-    public List<Letter> getFieldRow(int rowIndex) {
+    public List<Letter> getRow(int rowIndex) {
         return field.get(rowIndex);
     }
 
@@ -58,7 +58,7 @@ public class GameFieldModel {
      * @param columnIndex column index
      * @return List<Letter> column from the field
      */
-    public List<Letter> getFieldColumn(int columnIndex) {
+    public List<Letter> getColumn(int columnIndex) {
         List<Letter> column = new ArrayList<Letter>();
         for (List<Letter> row : field) {
             column.add(row.get(columnIndex));

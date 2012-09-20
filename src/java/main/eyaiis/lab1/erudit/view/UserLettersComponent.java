@@ -1,15 +1,16 @@
 package eyaiis.lab1.erudit.view;
 
-import eyaiis.lab1.erudit.model.Game;
-import eyaiis.lab1.erudit.model.Letter;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.Letter;
 
 /**
  * @author yaskoam

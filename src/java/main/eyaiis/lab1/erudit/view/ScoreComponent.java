@@ -1,10 +1,10 @@
 package eyaiis.lab1.erudit.view;
 
-import eyaiis.lab1.erudit.model.Game;
-import eyaiis.lab1.erudit.model.User;
-
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.User;
 
 /**
  * @author yaskoam

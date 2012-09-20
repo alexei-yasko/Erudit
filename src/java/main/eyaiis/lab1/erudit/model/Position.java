@@ -23,13 +23,21 @@ public class Position {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Position position = (Position) o;
 
-        if (column != position.column) return false;
-        if (this.row != position.row) return false;
+        if (column != position.column) {
+            return false;
+        }
+        if (this.row != position.row) {
+            return false;
+        }
 
         return true;
     }
@@ -44,8 +52,8 @@ public class Position {
     @Override
     public String toString() {
         return "Position{" +
-                "row=" + row +
-                ", column=" + column +
-                '}';
+            "row=" + row +
+            ", column=" + column +
+            '}';
     }
 }

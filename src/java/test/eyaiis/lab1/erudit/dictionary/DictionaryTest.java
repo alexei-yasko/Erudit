@@ -23,7 +23,7 @@ public class DictionaryTest {
         );
 
         Dictionary dictionary = new Dictionary();
-        List<String> wordList = dictionary.getPossibleWordsFromLetters(characters);
+        List<String> wordList = dictionary.composeWordsFromLetters(characters);
 
         for (String word : wordList) {
             System.out.println(word);

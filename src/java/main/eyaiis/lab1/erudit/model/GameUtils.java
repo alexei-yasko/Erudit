@@ -25,34 +25,26 @@ public class GameUtils {
      * @param letterBox letter box
      * @return List<Letter> random word
      */
-    public static List<Letter> getRandomWord(Dictionary dictionary, LetterBox letterBox) {
-        List<Letter> resultWord = new ArrayList<Letter>();
+    public static Word getRandomWord(Dictionary dictionary, LetterBox letterBox) {
+        List<Letter> wordLetters = new ArrayList<Letter>();
 
         String randomWord = dictionary.getRandomWord();
 
         for (Character name : randomWord.toCharArray()) {
-            resultWord.add(letterBox.getLetterByName(name));
+            wordLetters.add(letterBox.getLetterByName(name));
         }
 
-        return resultWord;
+        return new Word(wordLetters);
     }
 
-    /**
-     * Method that check if given word exist in dictionary.
-     *
-     * @param dictionary dictionary
-     * @param word List<Letter> given word
-     * @return true - word exist in dictionary, false - word doesn't exist in dictionary
-     */
-    public static boolean isWordExist(Dictionary dictionary, List<Letter> word) {
+    public static List<Character> convertFromLetterListToCharacterList(List<Letter> letterList) {
+        List<Character> characterList = new ArrayList<Character>();
 
-        StringBuffer buffer = new StringBuffer();
-
-        for (Letter letter : word) {
-            buffer.append(letter.getName());
+        for (Letter letter : letterList) {
+            characterList.add(letter.getName());
         }
 
-        return dictionary.isWordExist(buffer.toString());
+        return characterList;
     }
 
     /**

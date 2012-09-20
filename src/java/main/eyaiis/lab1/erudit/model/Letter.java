@@ -55,8 +55,8 @@ public class Letter {
     @Override
     public String toString() {
         return "Letter{" +
-                "letterPoints=" + letterPoints +
-                ", name='" + name + '\'' +
-                '}';
+            "letterPoints=" + letterPoints +
+            ", name='" + name + '\'' +
+            '}';
     }
 }

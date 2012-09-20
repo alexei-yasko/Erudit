@@ -45,7 +45,7 @@ public class Dictionary {
         return wordList.get(index);
     }
 
-    public List<String> getPossibleWordsFromLetters(List<Character> letterList) {
+    public List<String> composeWordsFromLetters(List<Character> letterList) {
         List<String> wordWithPossiblePrefixes = new ArrayList<String>();
 
         for (String prefix : getPossibleWordPrefixesFromLetters(letterList)) {
