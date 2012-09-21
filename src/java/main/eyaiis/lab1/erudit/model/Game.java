@@ -141,7 +141,7 @@ public class Game {
         //set letters before central letter
         for (int i = 0; i < indexOfCentralLetter; i++) {
             Position position =
-                    gameFieldModel.getLeftCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - i));
+                gameFieldModel.getLeftCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - i));
             int letterIndex = indexOfCentralLetter - i - 1;
             gameFieldModel.setLetter(word.getLetter(letterIndex), position);
         }
@@ -149,7 +149,7 @@ public class Game {
         //set central letter and letters after the central letter
         for (int i = 0; i < word.getLength() - indexOfCentralLetter; i++) {
             Position position =
-                    gameFieldModel.getRightCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - 1 + i));
+                gameFieldModel.getRightCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - 1 + i));
             int letterIndex = indexOfCentralLetter + i;
             gameFieldModel.setLetter(word.getLetter(letterIndex), position);
         }

@@ -1,20 +1,22 @@
 package eyaiis.lab1.erudit.view;
 
-import com.google.common.base.Strings;
-import eyaiis.lab1.erudit.model.Game;
-import eyaiis.lab1.erudit.model.Letter;
-import eyaiis.lab1.erudit.model.Position;
-import eyaiis.lab1.erudit.model.User;
-
-import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import com.google.common.base.Strings;
+
+import eyaiis.lab1.erudit.model.Game;
+import eyaiis.lab1.erudit.model.Letter;
+import eyaiis.lab1.erudit.model.Position;
+import eyaiis.lab1.erudit.model.User;
 
 /**
  * Component that represent game field. Contains list of elementary cell.
@@ -118,11 +120,14 @@ public class GameFieldComponent extends JPanel {
 
             if (isAvailableButNotChoose(letterCellComponent)) {
                 handleAvailableButNotChoose(letterCellComponent);
-            } else if (isAvailableAndChoose(letterCellComponent)) {
+            }
+            else if (isAvailableAndChoose(letterCellComponent)) {
                 handleAvailableAndChoose(letterCellComponent);
-            } else if (isUnavailableAndChoose(letterCellComponent)) {
+            }
+            else if (isUnavailableAndChoose(letterCellComponent)) {
                 handleUnavailableAndChoose(letterCellComponent);
-            } else if (isUnavailableAndNotChoose(letterCellComponent)) {
+            }
+            else if (isUnavailableAndNotChoose(letterCellComponent)) {
                 handleUnavailableAndNotChoose(letterCellComponent);
             }
 

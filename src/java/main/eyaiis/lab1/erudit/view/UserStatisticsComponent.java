@@ -1,14 +1,15 @@
 package eyaiis.lab1.erudit.view;
 
-import eyaiis.lab1.erudit.model.User;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+
+import eyaiis.lab1.erudit.model.User;
 
 /**
  * @author yaskoam
@@ -16,7 +17,7 @@ import java.awt.Graphics;
 public class UserStatisticsComponent extends JPanel {
 
     private static final int BORDER_SIZE = 2;
-    private static final Font FONT = new Font("Verdana", Font.BOLD, 20);
+    private static final Font FONT = new Font("Segoe Print", Font.BOLD, 20);
 
     private User user;
 

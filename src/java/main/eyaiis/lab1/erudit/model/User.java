@@ -1,9 +1,9 @@
 package eyaiis.lab1.erudit.model;
 
-import eyaiis.lab1.erudit.dictionary.Dictionary;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import eyaiis.lab1.erudit.dictionary.Dictionary;
 
 /**
  * Class for user of the game.
@@ -52,6 +52,14 @@ public class User {
         }
 
         return null;
+    }
+
+    /**
+     * Method that clear user game state.
+     */
+    public void clear() {
+        points = 0;
+        letterList.clear();
     }
 
     public void addLater(Letter later) {

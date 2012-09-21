@@ -53,10 +53,6 @@ public class LetterBox {
         return letterList.isEmpty();
     }
 
-    public int getSize() {
-        return letterList.size();
-    }
-
     /**
      * Return list of random letter from box and remove them from it.
      *

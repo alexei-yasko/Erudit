@@ -3,7 +3,8 @@ package eyaiis.lab1.erudit.view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -18,11 +19,12 @@ import eyaiis.lab1.erudit.model.Letter;
 public class UserLettersComponent extends JPanel {
 
     private static final int BORDER_SIZE = 2;
-    private static final Font FONT = new Font("Verdana", Font.BOLD, 20);
+    private static final String LETTER_SEPARATOR = ". ";
+    private static final Font FONT = new Font("Segoe Print", Font.BOLD, 20);
 
     private Game game;
 
-    private JPanel lettersPanel;
+    private List<JLabel> letterLabelList = new ArrayList<JLabel>();
 
     public UserLettersComponent(Game game) {
         this.game = game;
@@ -30,26 +32,38 @@ public class UserLettersComponent extends JPanel {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         add(createLabel("Your letters: ", FONT));
 
-        lettersPanel = new JPanel();
-        lettersPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-        add(lettersPanel);
+        for (int i = 0; i < Game.getCardOnHandsQuantity(); i++) {
+            JLabel label = createLabel("", FONT);
+            add(label);
+            add(createLabel(LETTER_SEPARATOR, FONT));
+            letterLabelList.add(label);
+        }
 
         setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, BORDER_SIZE));
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        lettersPanel.removeAll();
-        setLettersOnThePanel(lettersPanel, game);
+    public void refreshLettersComponent() {
+        for (int i = 0; i < game.getCurrentUser().getLetterList().size(); i++) {
+            letterLabelList.get(i).setText(getTextForLetterLabel(game.getCurrentUser().getLetterList().get(i)));
+        }
 
-        super.paintComponent(g);
+        for (int i = game.getCurrentUser().getLetterList().size(); i < letterLabelList.size(); i++) {
+            letterLabelList.get(i).setText("");
+        }
     }
 
-    private void setLettersOnThePanel(JPanel lettersPanel, Game game) {
-        for (Letter letter : game.getCurrentUser().getLetterList()) {
-            lettersPanel.add(createLabel(letter.getName().toString(), FONT));
-        }
+    private JLabel createLetterLabel(Letter letter, Font font) {
+        return createLabel(getTextForLetterLabel(letter), font);
+    }
+
+    private String getTextForLetterLabel(Letter letter) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(letter.getName());
+        builder.append(" : ");
+        builder.append(letter.getLetterPoints());
+//        builder.append(" pts)");
+
+        return builder.toString();
     }
 
     private JLabel createLabel(String text, Font font) {

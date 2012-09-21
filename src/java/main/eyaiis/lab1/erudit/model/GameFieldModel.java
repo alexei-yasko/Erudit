@@ -79,7 +79,7 @@ public class GameFieldModel {
         if (letterList == null) {
             return;
         }
-        
+
         for (int i = beginIndex; i < letterList.size(); i++) {
             setLetter(letterList.get(i - beginIndex), new Position(i, columnIndex));
         }

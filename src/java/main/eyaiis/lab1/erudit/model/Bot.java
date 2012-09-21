@@ -203,7 +203,7 @@ public class Bot extends User {
                 isNotNullExist = true;
             }
 
-            if(!isLetterPlacementAllowed(experimentalColumnOrRow.get(i), columnOrRow.get(i), getLetterList())) {
+            if (!isLetterPlacementAllowed(experimentalColumnOrRow.get(i), columnOrRow.get(i), getLetterList())) {
                 return false;
             }
         }

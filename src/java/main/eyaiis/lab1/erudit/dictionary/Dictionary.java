@@ -101,7 +101,7 @@ public class Dictionary {
 
         for (String prefix : dictionary.keySet()) {
 
-            if(isStringPossibleFromLetters(letterList, prefix)) {
+            if (isStringPossibleFromLetters(letterList, prefix)) {
                 possiblePrefixes.add(prefix);
             }
         }

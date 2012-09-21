@@ -31,7 +31,14 @@ public class GameUtils {
         String randomWord = dictionary.getRandomWord();
 
         for (Character name : randomWord.toCharArray()) {
-            wordLetters.add(letterBox.getLetterByName(name));
+            Letter letter = letterBox.getLetterByName(name);
+            if (letter == null) {
+                letter = wordLetters.get(wordLetters.indexOf(letter));
+                wordLetters.add(new Letter(letter.getName(), letter.getLetterPoints()));
+            }
+            else {
+                wordLetters.add(letter);
+            }
         }
 
         return new Word(wordLetters);

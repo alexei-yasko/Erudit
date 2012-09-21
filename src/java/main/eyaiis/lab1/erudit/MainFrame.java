@@ -1,7 +1,9 @@
 package eyaiis.lab1.erudit;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ import eyaiis.lab1.erudit.view.UserLettersComponent;
  */
 public class MainFrame extends JFrame {
 
+    private static final Font FONT = new Font("Segoe Print", Font.BOLD, 20);
     private static final String TITLE = "Scrabble game";
     private static final String WIN_MESSAGE_PATTERN = "User '%s' with '%s' points win!!!!";
 
@@ -40,6 +43,7 @@ public class MainFrame extends JFrame {
 
     private JButton endGameButton;
     private JButton endStepButton;
+    private UserLettersComponent userLettersComponent;
 
     public MainFrame(Game game) {
         this.game = game;
@@ -49,34 +53,38 @@ public class MainFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        initGameFrame();
+        initGameFrame(game);
+
+        game.startGame();
+        refresh();
     }
 
-    public void initGameFrame() {
+    public void initGameFrame(Game game) {
         gameFieldComponent = new GameFieldComponent(game);
         add(gameFieldComponent, BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
         endStepButton = new JButton("End step");
+        endStepButton.setFont(FONT);
         endStepButton.addActionListener(new EndStepButtonActionListener());
         buttonPanel.add(endStepButton);
 
         endGameButton = new JButton("End Game");
+        endGameButton.setFont(FONT);
         endGameButton.addActionListener(new EndGameButton());
         buttonPanel.add(endGameButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
         add(new ScoreComponent(game), BorderLayout.EAST);
-        add(new UserLettersComponent(game), BorderLayout.NORTH);
-
-        game.startGame();
-        refresh();
+        userLettersComponent = new UserLettersComponent(game);
+        add(userLettersComponent, BorderLayout.NORTH);
     }
 
     private void refresh() {
         gameFieldComponent.refreshGameField();
+        userLettersComponent.refreshLettersComponent();
         repaint();
     }
 
@@ -104,15 +112,28 @@ public class MainFrame extends JFrame {
         }
 
         private void startNewGame() {
-//            endGameButton.setText("End game");
-//            endStepButton.setEnabled(true);
-//
-//            game = new Game(game.getUserList());
-//            //initGameFrame();
-//            game.startGame();
-//            refresh();
+            for (Component component : MainFrame.this.getContentPane().getComponents()) {
+                MainFrame.this.remove(component);
+            }
+
+            game = new Game(refreshUserList(game.getUserList()));
+
+            initGameFrame(game);
+
+            game.startGame();
+            refresh();
         }
 
+    }
+
+    private List<User> refreshUserList(List<User> userList) {
+        List<User> refreshedUserList = new ArrayList<User>(userList);
+
+        for (User user : refreshedUserList) {
+            user.clear();
+        }
+
+        return refreshedUserList;
     }
 
     private class EndStepButtonActionListener implements ActionListener {
