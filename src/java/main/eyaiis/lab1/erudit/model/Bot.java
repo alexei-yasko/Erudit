@@ -21,6 +21,9 @@ public class Bot extends User {
 
     @Override
     public void executeStep(Game game, Dictionary dictionary) {
+
+        System.out.println(getLetterList());
+
         GameFieldModel gameFieldModel = game.getGameFieldModel();
 
         Map<Word, Integer> moreSuitableWordForColumns = getMoreSuitableWordForColumns(gameFieldModel, dictionary);
@@ -200,12 +203,22 @@ public class Bot extends User {
                 isNotNullExist = true;
             }
 
-            if (columnOrRow.get(i) != null && !columnOrRow.get(i).equals(experimentalColumnOrRow.get(i))) {
+            if(!isLetterPlacementAllowed(experimentalColumnOrRow.get(i), columnOrRow.get(i), getLetterList())) {
                 return false;
             }
         }
 
         return isNullExist && isNotNullExist;
+    }
+
+    private boolean isLetterPlacementAllowed(Letter experimentalLetter, Letter basicLatter, List<Letter> userLetters) {
+        boolean isExperimentalLetterNull = experimentalLetter == null;
+        boolean isBasicLetterNull = basicLatter == null;
+        boolean isExperimentalLetterContainsOnHand = userLetters.contains(experimentalLetter);
+        boolean isBasicLetterEqualsToExperimentalLetter = !isBasicLetterNull && basicLatter.equals(experimentalLetter);
+
+        return (isBasicLetterNull && !isExperimentalLetterNull && isExperimentalLetterContainsOnHand) ||
+            (isBasicLetterEqualsToExperimentalLetter);
     }
 
     private void placeWordInColumn(Word word, GameFieldModel gameFieldModel, int columnIndex) {
