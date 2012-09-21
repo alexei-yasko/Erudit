@@ -67,14 +67,18 @@ public class Game {
 
         System.out.println("User points: '" + currentUser.getPoints() + "'");
 
-        //get missing letters for user
-        List<Letter> letterList = letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY - currentUser.getLetterList().size());
-        currentUser.addLater(letterList);
+        if (!letterBox.isEmpty()) {
+            //get missing letters for user
+            List<Letter> letterList = letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY - currentUser.getLetterList().size());
+            currentUser.addLater(letterList);
+        }
 
         currentUser = determineNextUser(currentUser);
 
         //this will help to implement the game bot
         currentUser.executeStep(this, dictionary);
+
+        int i = 0;
     }
 
     public User getWinner() {
@@ -137,7 +141,7 @@ public class Game {
         //set letters before central letter
         for (int i = 0; i < indexOfCentralLetter; i++) {
             Position position =
-                gameFieldModel.getLeftCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - i));
+                    gameFieldModel.getLeftCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - i));
             int letterIndex = indexOfCentralLetter - i - 1;
             gameFieldModel.setLetter(word.getLetter(letterIndex), position);
         }
@@ -145,7 +149,7 @@ public class Game {
         //set central letter and letters after the central letter
         for (int i = 0; i < word.getLength() - indexOfCentralLetter; i++) {
             Position position =
-                gameFieldModel.getRightCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - 1 + i));
+                    gameFieldModel.getRightCellPosition(new Position(rowOfCentralElement, columnOfCentralElement - 1 + i));
             int letterIndex = indexOfCentralLetter + i;
             gameFieldModel.setLetter(word.getLetter(letterIndex), position);
         }

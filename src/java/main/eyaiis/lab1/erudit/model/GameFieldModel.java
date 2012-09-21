@@ -76,6 +76,10 @@ public class GameFieldModel {
      */
     public void setColumn(int columnIndex, int beginIndex, List<Letter> letterList) {
 
+        if (letterList == null) {
+            return;
+        }
+        
         for (int i = beginIndex; i < letterList.size(); i++) {
             setLetter(letterList.get(i - beginIndex), new Position(i, columnIndex));
         }
@@ -89,6 +93,10 @@ public class GameFieldModel {
      * @param letterList list of letter for set
      */
     public void setRow(int rowIndex, int beginIndex, List<Letter> letterList) {
+
+        if (letterList == null) {
+            return;
+        }
 
         for (int i = beginIndex; i < letterList.size(); i++) {
             setLetter(letterList.get(i - beginIndex), new Position(rowIndex, i));

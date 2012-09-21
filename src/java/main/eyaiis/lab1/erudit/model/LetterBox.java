@@ -49,6 +49,14 @@ public class LetterBox {
         return letter;
     }
 
+    public boolean isEmpty() {
+        return letterList.isEmpty();
+    }
+
+    public int getSize() {
+        return letterList.size();
+    }
+
     /**
      * Return list of random letter from box and remove them from it.
      *
@@ -58,7 +66,10 @@ public class LetterBox {
         List<Letter> selectedLetters = new ArrayList<Letter>();
 
         for (int i = 0; i < quantity; i++) {
-            selectedLetters.add(getRandomLetter());
+
+            if (!letterList.isEmpty()) {
+                selectedLetters.add(getRandomLetter());
+            }
         }
 
         return selectedLetters;

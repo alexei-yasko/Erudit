@@ -16,7 +16,7 @@ public class Word {
         this.lettersOfWord = lettersOfWord;
     }
 
-    public static Word composeWord(String word, List<Letter> letterList) {
+    public static Word composeWordFromLetters(String word, List<Letter> letterList) {
         List<Letter> lettersOfWord = new ArrayList<Letter>();
         letterList = new ArrayList<Letter>(letterList);
 
@@ -30,7 +30,7 @@ public class Word {
         return new Word(lettersOfWord);
     }
 
-    public boolean isContainsLetterList(List<Letter> letterList) {
+    public boolean isContainsAllLettersFromList(List<Letter> letterList) {
         List<Letter> lettersOfWord = new ArrayList<Letter>(this.lettersOfWord);
 
         boolean isContainsLetterList = true;
