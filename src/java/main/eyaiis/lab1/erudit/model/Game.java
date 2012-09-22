@@ -65,8 +65,6 @@ public class Game {
             currentUser.increasePoints(word.calculateWordPoints());
         }
 
-        System.out.println("User points: '" + currentUser.getPoints() + "'");
-
         if (!letterBox.isEmpty()) {
             //get missing letters for user
             List<Letter> letterList = letterBox.getRandomLetterList(CARD_ON_HANDS_QUANTITY - currentUser.getLetterList().size());

@@ -179,11 +179,7 @@ public class MainFrame extends JFrame {
         List<Letter> wordLetters = new ArrayList<Letter>();
         for (LetterCellComponent letterCellComponent : chosenLetterCell) {
             wordLetters.add(letterCellComponent.getLetter());
-
-            System.out.print(letterCellComponent.getLetter().getName());
         }
-
-        System.out.println("");
 
         return new Word(wordLetters);
     }

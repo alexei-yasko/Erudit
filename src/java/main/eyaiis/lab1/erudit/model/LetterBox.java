@@ -44,8 +44,6 @@ public class LetterBox {
         Letter letter = letterList.get(index);
         letterList.remove(index);
 
-        System.out.println(letter);
-
         return letter;
     }
 

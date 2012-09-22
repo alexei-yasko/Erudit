@@ -22,8 +22,6 @@ public class Bot extends User {
     @Override
     public void executeStep(Game game, Dictionary dictionary) {
 
-        System.out.println(getLetterList());
-
         GameFieldModel gameFieldModel = game.getGameFieldModel();
 
         Map<Word, Integer> moreSuitableWordForColumns = getMoreSuitableWordForColumns(gameFieldModel, dictionary);
